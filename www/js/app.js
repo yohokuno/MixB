@@ -17,3 +17,11 @@ angular.module('MixB', ['ionic'])
     }
   });
 })
+
+.controller('MainCtrl', function($scope) {
+  $scope.countries = [
+    {name: "イギリス"},
+    {name: "フランス"}
+  ];
+});
+
