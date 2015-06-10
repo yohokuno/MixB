@@ -23,5 +23,10 @@ angular.module('MixB', ['ionic'])
     {name: "イギリス"},
     {name: "フランス"}
   ];
+  $scope.activeCountry = 0; // select UK by default
+
+  $scope.selectCountry = function(country, index) {
+    $scope.activeCountry = index;
+  }
 });
 

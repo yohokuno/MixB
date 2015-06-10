@@ -27,7 +27,9 @@
         </ion-header-bar>
         <ion-content>
           <ion-list>
-            <ion-item ng-repeat="country in countries">
+            <ion-item ng-repeat="country in countries"
+             ng-click="selectCountry(country, $index)"
+             ng-class="{active: activeCountry == $index}">
               {{country.name}}
             </ion-item>
           </ion-list>
