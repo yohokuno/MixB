@@ -71,18 +71,20 @@ angular.module('MixB', ['ionic'])
   $scope.activeCountry = 0;     // select UK by default
   $scope.activeCategory = 0;    // select acm by default
 
-  $scope.updatePage = function(index) {
+  $scope.updateItems = function(index) {
     $scope.activeCategory = index;
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[index];
+    var dirname = category.url.replace(/\/[^\/]+$/, '/');
     $http.get(category.url).
       success(function(data) {
-        var content = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
-        //content.find('tr').find('td:lt(4)').remove();
-        var loaded = content.find('tr').map(function() {
-            return $(this).text();
+        var rows = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table > tbody > tr');
+        category.items = rows.map(function(i,e) {
+            return {
+                title: $(e).find('a').text(),
+                url: dirname + $(e).find('a').attr('href'),
+            };
         }).get();
-        category.items = category.items.concat(loaded);
       });
   }
 
@@ -90,7 +92,7 @@ angular.module('MixB', ['ionic'])
     $scope.activeCountry = index;
     $ionicSideMenuDelegate.toggleLeft(false);
     $scope.activeCategory = 0;
-    $scope.updatePage($scope.activeCategory);
+    $scope.updateItems($scope.activeCategory);
   }
 
   $scope.toggleCountries = function() {
@@ -98,6 +100,6 @@ angular.module('MixB', ['ionic'])
   }
 
   // Initialize
-  $scope.updatePage($scope.activeCategory);
+  $scope.updateItems($scope.activeCategory);
 });
 
