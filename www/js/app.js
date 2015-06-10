@@ -72,21 +72,25 @@ angular.module('MixB', ['ionic'])
   $scope.activeCountry = 0;     // select UK by default
   $scope.activeCategory = 0;    // select acm by default
 
+  // Download data from external website
+  $scope.fetchData = function(url, callback) {
+    $http.get(url)
+      .success(callback);
+  }
   $scope.updateItems = function(index) {
     $scope.activeCategory = index;
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[index];
     var dirname = category.url.replace(/\/[^\/]+$/, '/');
-    $http.get(category.url).
-      success(function(data) {
-        var rows = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table > tbody > tr');
-        category.items = rows.map(function(i,e) {
-            return {
-                title: $(e).find('a').text(),
-                url: dirname + $(e).find('a').attr('href'),
-            };
-        }).get();
-      });
+    $scope.fetchData(category.url, function(data) {
+      var rows = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table > tbody > tr');
+      category.items = rows.map(function(i,e) {
+        return {
+         title: $(e).find('a').text(),
+          url: dirname + $(e).find('a').attr('href'),
+        };
+      }).get();
+    });
   }
 
   // modal view for item detail
