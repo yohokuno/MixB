@@ -20,7 +20,8 @@ angular.module('MixB', ['ionic'])
 
 .controller('MainCtrl', function($scope, $ionicSideMenuDelegate) {
   $scope.countries = [
-    {name: "イギリス", categories: [
+    {name: "イギリス",
+     categories: [
       {name: "住まい"},
       {name: "求人"},
       {name: "売ります"},
@@ -30,13 +31,29 @@ angular.module('MixB', ['ionic'])
       {name: "サークル"},
       {name: "お知らせ"}
     ]},
-    {name: "フランス"}
+    /* Multiple countries not working
+    {name: "フランス",
+     categories: [
+      {name: "住まい"},
+      {name: "求人"},
+      {name: "売ります"},
+      {name: "買います"},
+      {name: "レッスン"},
+      {name: "サービス"},
+      {name: "サークル"},
+      {name: "お知らせ"}
+    ]}
+    */
   ];
   $scope.activeCountry = 0; // select UK by default
 
   $scope.selectCountry = function(country, index) {
     $scope.activeCountry = index;
     $ionicSideMenuDelegate.toggleLeft(false);
+  }
+
+  $scope.toggleCountries = function() {
+    $ionicSideMenuDelegate.toggleLeft();
   }
 });
 

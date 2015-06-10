@@ -39,12 +39,20 @@
       </ion-side-menu>
 
       <!-- Center content -->
-      <ion-side-menu-content>
+      <ion-side-menu-content drag-content="false">
+        <!-- Multiple countries not working
+        <ion-header-bar class="bar-dark">
+          <button class="button button-icon" ng-click="toggleCountries()">
+            <i class="icon ion-navicon"></i>
+          </button>
+          <h1 class="title">MixB {{countries[activeCountry].name}}</h1>
+        </ion-header-bar>
+        -->
         <ion-content scroll="false">
           <ion-slide-box show-pager="false" ion-slide-tabs>
             <ion-slide ng-repeat="category in countries[activeCountry].categories"
                 ion-slide-tab-label="{{category.name}}">
-              <h1>{{category.name}}</h1>
+              {{category.name}}
             </ion-slide>
           </ion-slide-box>
         </ion-content>
