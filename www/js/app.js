@@ -1,4 +1,4 @@
-angular.module('MixB', ['ionic'])
+angular.module('MixB', ['ionic', 'ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -11,7 +11,7 @@ angular.module('MixB', ['ionic'])
   });
 })
 
-.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate) {
+.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate, $cordovaToast) {
   // Main model data: country -> category -> item
   $scope.countries = [
     {name: "イギリス",
@@ -75,8 +75,12 @@ angular.module('MixB', ['ionic'])
   // Download data from external website
   $scope.fetchData = function(url, callback) {
     $http.get(url)
-      .success(callback);
+      .success(callback)
+      .error(function() {
+        alert('ERROR: can not open ' + url);
+      });
   }
+  alert("I am an alert box!");
   $scope.updateItems = function(index) {
     $scope.activeCategory = index;
     var country = $scope.countries[$scope.activeCountry];
@@ -91,6 +95,7 @@ angular.module('MixB', ['ionic'])
         };
       }).get();
     });
+    $scope.showToast('successfully opend ' + category.url);
   }
 
   // modal view for item detail
@@ -120,6 +125,11 @@ angular.module('MixB', ['ionic'])
 
   $scope.toggleCountries = function() {
     $ionicSideMenuDelegate.toggleLeft();
+  }
+
+  // Show toast for error
+  $scope.showToast = function(message) {
+    $cordovaToast.show(message, 'short', 'bottom');
   }
 
   // Initialize
