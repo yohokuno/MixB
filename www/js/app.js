@@ -11,7 +11,7 @@ angular.module('MixB', ['ionic'])
   });
 })
 
-.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate) {
+.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate, $ionicLoading) {
   // Main model data: country -> category -> item
   $scope.countries = [
     {name: "イギリス",
@@ -75,7 +75,10 @@ angular.module('MixB', ['ionic'])
   // Download data from external website
   $scope.fetchData = function(url, callback) {
     $http.get(url)
-      .success(callback);
+      .success(callback)
+      .error(function() {
+          $ionicLoading.show({ template: 'Could not load ' + url, noBackdrop: true, duration: 1000 }
+      });
   }
   $scope.updateItems = function(index) {
     $scope.activeCategory = index;
