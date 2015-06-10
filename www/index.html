@@ -6,10 +6,12 @@
     <title>MixB</title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="lib/slidingTabs.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/slidingTabsDirective.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -38,6 +40,14 @@
 
       <!-- Center content -->
       <ion-side-menu-content>
+        <ion-content scroll="false">
+          <ion-slide-box show-pager="false" ion-slide-tabs>
+            <ion-slide ng-repeat="category in countries[activeCountry].categories"
+                ion-slide-tab-label="{{category.name}}">
+              <h1>{{category.name}}</h1>
+            </ion-slide>
+          </ion-slide-box>
+        </ion-content>
       </ion-side-menu-content>
     </ion-side-menus>
   </body>

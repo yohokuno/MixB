@@ -20,7 +20,16 @@ angular.module('MixB', ['ionic'])
 
 .controller('MainCtrl', function($scope, $ionicSideMenuDelegate) {
   $scope.countries = [
-    {name: "イギリス"},
+    {name: "イギリス", categories: [
+      {name: "住まい"},
+      {name: "求人"},
+      {name: "売ります"},
+      {name: "買います"},
+      {name: "レッスン"},
+      {name: "サービス"},
+      {name: "サークル"},
+      {name: "お知らせ"}
+    ]},
     {name: "フランス"}
   ];
   $scope.activeCountry = 0; // select UK by default
