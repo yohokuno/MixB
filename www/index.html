@@ -23,6 +23,7 @@
   </head>
   <body ng-app="MixB" ng-controller="MainCtrl">
 
+
     <ion-side-menus>
       <!-- Left menu -->
       <ion-side-menu side="left">
@@ -51,15 +52,19 @@
         </ion-header-bar>
 
         <ion-content>
+          <ion-refresher
+            on-refresh="doRefresh()">
+          </ion-refresher>
+
           <ion-slide-box show-pager="false" ion-slide-tabs
             active-slide="activeCategory"
             on-slide-changed="updateItems($index)">
             <ion-slide ng-repeat="category in countries[activeCountry].categories"
                 ion-slide-tab-label="{{category.name}}">
               <ion-list>
-              <ion-item ng-repeat="item in category.items" ng-click="openItemDetail(item.url)">
-                {{item.title}}
-              </ion-item>
+                <ion-item ng-repeat="item in category.items" ng-click="openItemDetail(item.url)">
+                  {{item.title}}
+                </ion-item>
               </ion-list>
             </ion-slide>
           </ion-slide-box>

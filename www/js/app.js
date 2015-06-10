@@ -75,9 +75,17 @@ angular.module('MixB', ['ionic'])
   // Download data from external website
   $scope.fetchData = function(url, callback) {
     $http.get(url)
-      .success(callback)
+      .success(function(data) {
+        $scope.$broadcast('scroll.refreshComplete');
+        callback(data);
+      })
       .error(function() {
-          $ionicLoading.show({ template: 'Could not load ' + url, noBackdrop: true, duration: 1000 }
+        $scope.$broadcast('scroll.refreshComplete');
+        $ionicLoading.show({
+          template: 'Could not load ' + url,
+          noBackdrop: true,
+          duration: 1000
+        });
       });
   }
   $scope.updateItems = function(index) {
@@ -95,6 +103,9 @@ angular.module('MixB', ['ionic'])
       }).get();
     });
   }
+  $scope.doRefresh = function() {
+      $scope.$broadcast('scroll.refreshComplete');
+  }
 
   // modal view for item detail
   $ionicModal.fromTemplateUrl('item-detail.html', {
@@ -105,6 +116,7 @@ angular.module('MixB', ['ionic'])
   });
 
   $scope.openItemDetail = function(url) {
+    // TODO: download url, scrape content and inject into template
     $scope.temp = url;
     $scope.modal.show()
   }
