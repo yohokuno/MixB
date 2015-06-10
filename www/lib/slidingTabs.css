@@ -32,7 +32,7 @@ ion-slide:nth-child(2n) {
     float: left;
     margin: 0;
     padding: 0 12px 20px 12px;
-    font-size: 11px;
+    font-size: 15px;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.6);
     -webkit-transition: color .25s ease-in-out;
