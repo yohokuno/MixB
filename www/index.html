@@ -57,9 +57,9 @@
             on-slide-changed="updatePage($index)">
             <ion-slide ng-repeat="category in countries[activeCountry].categories"
                 ion-slide-tab-label="{{category.name}}">
-              <ul>
-                <li ng-repeat="item in category.items">{{item}}</li>
-              </ul>
+              <ion-list>
+                <ion-item ng-repeat="item in category.items">{{item}}</ion-item>
+              </ion-list>
             </ion-slide>
           </ion-slide-box>
         </ion-content>
