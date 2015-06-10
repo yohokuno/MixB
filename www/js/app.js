@@ -11,7 +11,8 @@ angular.module('MixB', ['ionic'])
   });
 })
 
-.controller('MainCtrl', function($scope, $http, $ionicSideMenuDelegate) {
+.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate) {
+  // Main model data: country -> category -> item
   $scope.countries = [
     {name: "イギリス",
      categories: [
@@ -88,6 +89,24 @@ angular.module('MixB', ['ionic'])
       });
   }
 
+  // modal view for item detail
+  $ionicModal.fromTemplateUrl('item-detail.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal
+  });
+
+  $scope.openItemDetail = function(url) {
+    $scope.temp = url;
+    $scope.modal.show()
+  }
+
+  $scope.closeItemDetail = function() {
+    $scope.modal.hide();
+  };
+
+  // functions for multiple countries
   $scope.selectCountry = function(country, index) {
     $scope.activeCountry = index;
     $ionicSideMenuDelegate.toggleLeft(false);

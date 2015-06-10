@@ -57,9 +57,8 @@
             <ion-slide ng-repeat="category in countries[activeCountry].categories"
                 ion-slide-tab-label="{{category.name}}">
               <ion-list>
-              <ion-item ng-repeat="item in category.items">
-              {{item.title}}<br>
-              {{item.url}}
+              <ion-item ng-repeat="item in category.items" ng-click="openItemDetail(item.url)">
+                {{item.title}}
               </ion-item>
               </ion-list>
             </ion-slide>
@@ -67,5 +66,17 @@
         </ion-content>
       </ion-side-menu-content>
     </ion-side-menus>
+    <script id="item-detail.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar>
+          <h1 class="title">Item detail view</h1>
+        </ion-header-bar>
+        <ion-content>
+          TBD: detial view
+          {{temp}}
+          <button class="button button-full button-energized" ng-click="closeItemDetail()">Close</button>
+        </ion-content>
+      </ion-modal-view>
+    </script>
   </body>
 </html>
