@@ -18,7 +18,7 @@ angular.module('MixB', ['ionic'])
   });
 })
 
-.controller('MainCtrl', function($scope) {
+.controller('MainCtrl', function($scope, $ionicSideMenuDelegate) {
   $scope.countries = [
     {name: "イギリス"},
     {name: "フランス"}
@@ -27,6 +27,7 @@ angular.module('MixB', ['ionic'])
 
   $scope.selectCountry = function(country, index) {
     $scope.activeCountry = index;
+    $ionicSideMenuDelegate.toggleLeft(false);
   }
 });
 
