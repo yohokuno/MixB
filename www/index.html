@@ -61,6 +61,10 @@
             on-slide-changed="updateItems($index); showLoading();">
             <ion-slide ng-repeat="category in countries[activeCountry].categories"
                 ion-slide-tab-label="{{category.name}}">
+              <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="search" placeholder="検索"></input>
+              </label>
               <ion-list>
                 <ion-item ng-repeat="item in category.items" ng-click="openItemDetail(item.url)">
                   {{item.title}}

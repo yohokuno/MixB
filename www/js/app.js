@@ -123,7 +123,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
         $ionicLoading.show({
           template: '読み込めませんでした：' + url,
           noBackdrop: true,
-          duration: 1000
+          duration: 2000
         });
       });
   }
