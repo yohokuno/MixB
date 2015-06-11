@@ -73,14 +73,9 @@ angular.module('MixB', ['ionic'])
   $scope.activeCategory = 0;    // select acm by default
 
   // Download data from external website
-  $scope.fetchData = function(url, callback) {
-    $http.get(url)
-      .success(function(data) {
-        $scope.$broadcast('scroll.refreshComplete');
-        callback(data);
-      })
+  $scope.fetchData = function(url) {
+    return $http.get(url)
       .error(function() {
-        $scope.$broadcast('scroll.refreshComplete');
         $ionicLoading.show({
           template: 'Could not load ' + url,
           noBackdrop: true,
@@ -93,7 +88,8 @@ angular.module('MixB', ['ionic'])
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[index];
     var dirname = category.url.replace(/\/[^\/]+$/, '/');
-    $scope.fetchData(category.url, function(data) {
+
+    $scope.fetchData(category.url).success(function(data) {
       var rows = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table > tbody > tr');
       category.items = rows.map(function(i,e) {
         return {
@@ -101,10 +97,10 @@ angular.module('MixB', ['ionic'])
           url: dirname + $(e).find('a').attr('href'),
         };
       }).get();
-    });
-  }
-  $scope.doRefresh = function() {
+    })
+    .finally(function() {
       $scope.$broadcast('scroll.refreshComplete');
+    });
   }
 
   // modal view for item detail
