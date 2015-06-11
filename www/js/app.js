@@ -113,9 +113,17 @@ angular.module('MixB', ['ionic', 'ngSanitize'])
   });
 
   $scope.openItemDetail = function(url) {
+    var country = $scope.countries[$scope.activeCountry];
+    var category = country.categories[$scope.activeCategory];
+    var dirname = category.url.replace(/\/[^\/]+$/, '/');
+
     $scope.fetchData(url).success(function(data) {
       var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
-      var rows = contents.find('tbody > tr');
+      // replace image path to absolute url
+      contents.find('img').each(function() {
+        var src = $(this).attr("src");
+        $(this).attr("src", dirname + src);
+      });
       $scope.title = contents.find('tr:eq(0)').text();
       $scope.metadata = contents.find('tr:eq(1)').html();
       var body = contents.find('tr:eq(2)');
