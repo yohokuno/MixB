@@ -113,8 +113,10 @@ angular.module('MixB', ['ionic'])
 
   $scope.openItemDetail = function(url) {
     // TODO: download url, scrape content and inject into template
-    $scope.temp = url;
-    $scope.modal.show()
+    $scope.fetchData(url).success(function(data) {
+      $scope.content = data;
+      $scope.modal.show();
+    });
   }
 
   $scope.closeItemDetail = function() {
