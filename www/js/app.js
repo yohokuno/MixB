@@ -4,10 +4,6 @@ app = angular.module('MixB', ['ionic', 'ngSanitize'])
 app.config(function($httpProvider) {
   $httpProvider.interceptors.push(function($rootScope) {
     return {
-      request: function(config) {
-        $rootScope.$broadcast('loading:show')
-        return config
-      },
       response: function(response) {
         $rootScope.$broadcast('loading:hide')
         return response
@@ -16,17 +12,7 @@ app.config(function($httpProvider) {
   });
 });
 
-app.run(function($rootScope, $ionicLoading) {
-  $rootScope.$on('loading:show', function() {
-    $ionicLoading.show({template: '<ion-spinner></ion-spinner>'})
-  });
-
-  $rootScope.$on('loading:hide', function() {
-    $ionicLoading.hide()
-  });
-})
-
-app.run(function($ionicPlatform) {
+app.run(function($ionicPlatform, $rootScope, $ionicLoading) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -34,6 +20,11 @@ app.run(function($ionicPlatform) {
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
+  });
+
+  $rootScope.$on('loading:hide', function() {
+    $ionicLoading.hide()
+    $rootScope.$broadcast('scroll.refreshComplete');
   });
 });
 
@@ -124,9 +115,6 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
           url: dirname + $(e).find('a').attr('href'),
         };
       }).get();
-    })
-    .finally(function() {
-      $scope.$broadcast('scroll.refreshComplete');
     });
   }
 
@@ -142,6 +130,8 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
     var dirname = category.url.replace(/\/[^\/]+$/, '/');
+
+    $ionicLoading.show({template: '<ion-spinner></ion-spinner>'})
 
     $scope.fetchData(url).success(function(data) {
       var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
@@ -169,13 +159,23 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     $ionicSideMenuDelegate.toggleLeft(false);
     $scope.activeCategory = 0;
     $scope.updateItems($scope.activeCategory);
+    $ionicLoading.show({template: '<ion-spinner></ion-spinner>'})
   }
 
   $scope.toggleCountries = function() {
     $ionicSideMenuDelegate.toggleLeft();
   }
+  // Show loading screen only when active tab is empty
+  $scope.showLoading = function() {
+    var country = $scope.countries[$scope.activeCountry];
+    var category = country.categories[$scope.activeCategory];
+    if (category.items.length == 0) {
+      $ionicLoading.show({template: '<ion-spinner></ion-spinner>'})
+    }
+  }
 
   // Initialize
   $scope.updateItems($scope.activeCategory);
+  $scope.showLoading();
 });
 
