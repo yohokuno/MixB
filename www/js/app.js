@@ -175,7 +175,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   }
 
   // Initialize
-  $scope.updateItems($scope.activeCategory);
   $scope.showLoading();
+  $scope.updateItems($scope.activeCategory);
 });
 
