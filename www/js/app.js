@@ -1,6 +1,32 @@
-angular.module('MixB', ['ionic', 'ngSanitize'])
+app = angular.module('MixB', ['ionic', 'ngSanitize'])
 
-.run(function($ionicPlatform) {
+// Setup
+app.config(function($httpProvider) {
+  $httpProvider.interceptors.push(function($rootScope) {
+    return {
+      request: function(config) {
+        $rootScope.$broadcast('loading:show')
+        return config
+      },
+      response: function(response) {
+        $rootScope.$broadcast('loading:hide')
+        return response
+      }
+    }
+  });
+});
+
+app.run(function($rootScope, $ionicLoading) {
+  $rootScope.$on('loading:show', function() {
+    $ionicLoading.show({template: '<ion-spinner></ion-spinner>'})
+  });
+
+  $rootScope.$on('loading:hide', function() {
+    $ionicLoading.hide()
+  });
+})
+
+app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -9,9 +35,9 @@ angular.module('MixB', ['ionic', 'ngSanitize'])
       StatusBar.styleDefault();
     }
   });
-})
+});
 
-.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate, $ionicLoading) {
+app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate, $ionicLoading) {
   // Main model data: country -> category -> item
   $scope.countries = [
     {name: "イギリス",
