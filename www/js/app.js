@@ -1,4 +1,4 @@
-angular.module('MixB', ['ionic'])
+angular.module('MixB', ['ionic', 'ngSanitize'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -113,11 +113,13 @@ angular.module('MixB', ['ionic'])
   });
 
   $scope.openItemDetail = function(url) {
-    // TODO: download url, scrape content and inject into template
     $scope.fetchData(url).success(function(data) {
       var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
       var rows = contents.find('tbody > tr');
-      $scope.content = rows.text();
+      $scope.title = contents.find('tr:eq(0)').text();
+      $scope.metadata = contents.find('tr:eq(1)').text();
+      var body = contents.find('tr:eq(2)');
+      $scope.content = body.find('div:eq(0)').html();
       $scope.modal.show();
     });
   }
