@@ -90,7 +90,8 @@ angular.module('MixB', ['ionic'])
     var dirname = category.url.replace(/\/[^\/]+$/, '/');
 
     $scope.fetchData(category.url).success(function(data) {
-      var rows = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table > tbody > tr');
+      var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
+      var rows = contents.find('tbody > tr');
       category.items = rows.map(function(i,e) {
         return {
          title: $(e).find('a').text(),
@@ -114,7 +115,9 @@ angular.module('MixB', ['ionic'])
   $scope.openItemDetail = function(url) {
     // TODO: download url, scrape content and inject into template
     $scope.fetchData(url).success(function(data) {
-      $scope.content = data;
+      var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
+      var rows = contents.find('tbody > tr');
+      $scope.content = rows.text();
       $scope.modal.show();
     });
   }
