@@ -79,7 +79,9 @@
           <h1 class="title">{{title}}</h1>
         </ion-header-bar>
         <ion-content>
+          <p ng-bind-html="metadata"></p>
           <p ng-bind-html="content"></p>
+          <p ng-bind-html="photo"></p>
         </ion-content>
       </ion-modal-view>
     </script>

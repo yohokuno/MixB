@@ -117,9 +117,10 @@ angular.module('MixB', ['ionic', 'ngSanitize'])
       var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
       var rows = contents.find('tbody > tr');
       $scope.title = contents.find('tr:eq(0)').text();
-      $scope.metadata = contents.find('tr:eq(1)').text();
+      $scope.metadata = contents.find('tr:eq(1)').html();
       var body = contents.find('tr:eq(2)');
       $scope.content = body.find('div:eq(0)').html();
+      $scope.photo = body.find('div:eq(1)').html();
       $scope.modal.show();
     });
   }
