@@ -94,7 +94,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     return $http.get(url)
       .error(function() {
         $ionicLoading.show({
-          template: 'Could not load ' + url,
+          template: '読み込めませんでした：' + url,
           noBackdrop: true,
           duration: 1000
         });
@@ -131,7 +131,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     var category = country.categories[$scope.activeCategory];
     var dirname = category.url.replace(/\/[^\/]+$/, '/');
 
-    $ionicLoading.show({template: '<ion-spinner></ion-spinner>'})
+    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
 
     $scope.fetchData(url).success(function(data) {
       var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
@@ -159,7 +159,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     $ionicSideMenuDelegate.toggleLeft(false);
     $scope.activeCategory = 0;
     $scope.updateItems($scope.activeCategory);
-    $ionicLoading.show({template: '<ion-spinner></ion-spinner>'})
+    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
   }
 
   $scope.toggleCountries = function() {
@@ -170,7 +170,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
     if (category.items.length == 0) {
-      $ionicLoading.show({template: '<ion-spinner></ion-spinner>'})
+      $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
     }
   }
 
