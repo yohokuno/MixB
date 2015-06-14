@@ -52,19 +52,15 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
 
   $.each($scope.countries, function(i, country) {
     country.categories = [
-        {name: "住まい", id: "acm"},
-        {name: "求人", id: "job"},
-        {name: "売ります", id: "sal"},
-        {name: "買います", id: "buy"},
-        {name: "レッスン", id: "les"},
-        {name: "サービス", id: "ser"},
-        {name: "サークル ", id: "cir"},
-        {name: "お知らせ", id: "inf"},
+        {name: "住まい", id: "acm", items: []},
+        {name: "求人", id: "job", items: []},
+        {name: "売ります", id: "sal", items: []},
+        {name: "買います", id: "buy", items: []},
+        {name: "レッスン", id: "les", items: []},
+        {name: "サービス", id: "ser", items: []},
+        {name: "サークル ", id: "cir", items: []},
+        {name: "お知らせ", id: "inf", items: []},
     ];
-    $.each(country.categories, function(i, category) {
-      category.items = [];
-      category.url = getUrl(country.id, category.id, "list");
-    });
   });
 
   $scope.activeCountry = 0;     // select UK by default
