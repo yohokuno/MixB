@@ -119,8 +119,8 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       var rows = contents.find('tbody > tr');
       category.items = rows.map(function(i,e) {
         return {
-         title: $(e).find('a').text(),
-          url: dirname + $(e).find('a').attr('href'),
+          title: $(e).find('td > a').text(),
+          url: dirname + $(e).find('td > a').attr('href'),
         };
       }).get();
       $ionicLoading.hide()
@@ -151,8 +151,8 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       var rows = contents.find('tbody > tr');
       category.items = rows.map(function(i,e) {
         return {
-         title: $(e).find('a').text(),
-          url: dirname + $(e).find('a').attr('href'),
+          title: $(e).find('td > a').text(),
+          url: dirname + $(e).find('td > a').attr('href'),
         };
       }).get();
       $ionicLoading.hide()
