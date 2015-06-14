@@ -28,7 +28,18 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   $scope.countries = [
     {name: "イギリス", id: "uk"},
     {name: "フランス", id: "fra"},
+    {name: "ドイツ", id: "ger"},
+    {name: "イタリア", id: "ita"},
+    {name: "アイルランド", id: "irl"},
+    {name: "ニューヨーク", id: "nyc"},
+    {name: "ロサンゼルス", id: "los"},
+    {name: "サンフランシスコ", id: "sfc"},
+    {name: "カナダ・バンクーバー", id: "van"},
+    {name: "オーストラリア・シドニー", id: "syd"},
+    {name: "ニュージーランド", id: "nz"},
     {name: "シンガポール", id: "sin"},
+    {name: "上海", id: "sha"},
+    {name: "香港", id: "hkg"},
   ];
 
   $.each($scope.countries, function(i, country) {
