@@ -127,6 +127,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
         });
       });
   }
+
   $scope.updateItems = function(index) {
     $scope.activeCategory = index;
     var country = $scope.countries[$scope.activeCountry];
@@ -135,6 +136,35 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
 
     $scope.fetchData(category.url).success(function(data) {
       var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
+      var rows = contents.find('tbody > tr');
+      category.items = rows.map(function(i,e) {
+        return {
+         title: $(e).find('a').text(),
+          url: dirname + $(e).find('a').attr('href'),
+        };
+      }).get();
+    });
+  }
+
+  // TODO: merge with updateItems()
+  $scope.searchItem = function(query) {
+    console.log("searchItem: " + query)
+    var country = $scope.countries[$scope.activeCountry];
+    var category = country.categories[$scope.activeCategory];
+    var dirname = category.url.replace(/\/[^\/]+$/, '/');
+
+    // HACK: replace list with search
+    var searchUrl = category.url.replace(/list/, 'search');
+
+    // TODO: implement error handling
+    $http({
+          method: 'POST',
+          url: searchURL,
+          data: $.param({'sc_word':query}),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    }).success(function(data) {
+      var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
+      console.log(contents.html());
       var rows = contents.find('tbody > tr');
       category.items = rows.map(function(i,e) {
         return {
