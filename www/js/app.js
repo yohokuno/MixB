@@ -12,90 +12,42 @@ app.run(function($ionicPlatform) {
 });
 
 app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate, $ionicLoading, $rootScope) {
-  // Main model data: country -> category -> item
+  function getUrl(country, category, action) {
+    var suffix = category + "/" + category + "_" + action + "_f.php";
+    if (country == "uk") {
+      switch (category) {
+        case "ser": case "cir": case "info":
+          return "http://www.mixb.net/" + suffix;
+        default:
+          return "http://www.mixb.jp/uk/" + suffix;
+      }
+    }
+    return "http://" + country + ".mixb.net/" + suffix;
+  }
+
   $scope.countries = [
-    {name: "イギリス",
-     categories: [
-      {name: "住まい",
-       url: "http://www.mixb.jp/uk/acm/acm_list_f.php",
-       items: []},
-      {name: "求人",
-       url: "http://www.mixb.jp/uk/job/job_list_f.php",
-       items: []},
-      {name: "売ります",
-       url: "http://www.mixb.jp/uk/sal/sal_list_f.php",
-       items: []},
-      {name: "買います",
-       url: "http://www.mixb.jp/uk/buy/buy_list_f.php",
-       items: []},
-      {name: "レッスン",
-       url: "http://www.mixb.jp/uk/les/les_list_f.php",
-       items: []},
-      {name: "サービス",
-       url: "http://www.mixb.net/ser/ser_list_f.php",
-       items: []},
-      {name: "サークル",
-       url: "http://www.mixb.net/cir/cir_list_f.php",
-       items: []},
-      {name: "お知らせ",
-       url: "http://www.mixb.net/inf/inf_list_f.php",
-       items: []},
-    ]},
-    {name: "フランス",
-     categories: [
-      {name: "住まい",
-       url: "http://fra.mixb.net/acm/acm_list_f.php",
-       items: []},
-      {name: "求人",
-       url: "http://fra.mixb.net/job/job_list_f.php",
-       items: []},
-      {name: "売ります",
-       url: "http://fra.mixb.net/sal/sal_list_f.php",
-       items: []},
-      {name: "買います",
-       url: "http://fra.mixb.net/buy/buy_list_f.php",
-       items: []},
-      {name: "レッスン",
-       url: "http://fra.mixb.net/les/les_list_f.php",
-       items: []},
-      {name: "サービス",
-       url: "http://fra.mixb.net/ser/ser_list_f.php",
-       items: []},
-      {name: "サークル",
-       url: "http://fra.mixb.net/cir/cir_list_f.php",
-       items: []},
-      {name: "お知らせ",
-       url: "http://fra.mixb.net/inf/inf_list_f.php",
-       items: []},
-    ]},
-    {name: "シンガポール",
-     categories: [
-      {name: "住まい",
-       url: "http://sin.mixb.net/acm/acm_list_f.php",
-       items: []},
-      {name: "求人",
-       url: "http://sin.mixb.net/job/job_list_f.php",
-       items: []},
-      {name: "売ります",
-       url: "http://sin.mixb.net/sal/sal_list_f.php",
-       items: []},
-      {name: "買います",
-       url: "http://sin.mixb.net/buy/buy_list_f.php",
-       items: []},
-      {name: "レッスン",
-       url: "http://sin.mixb.net/les/les_list_f.php",
-       items: []},
-      {name: "サービス",
-       url: "http://sin.mixb.net/ser/ser_list_f.php",
-       items: []},
-      {name: "サークル",
-       url: "http://sin.mixb.net/cir/cir_list_f.php",
-       items: []},
-      {name: "お知らせ",
-       url: "http://sin.mixb.net/inf/inf_list_f.php",
-       items: []},
-    ]},
+    {name: "イギリス", id: "uk"},
+    {name: "フランス", id: "fra"},
+    {name: "シンガポール", id: "sin"},
   ];
+
+  $.each($scope.countries, function(i, country) {
+    country.categories = [
+        {name: "住まい", id: "acm"},
+        {name: "求人", id: "job"},
+        {name: "売ります", id: "sal"},
+        {name: "買います", id: "buy"},
+        {name: "レッスン", id: "les"},
+        {name: "サービス", id: "ser"},
+        {name: "サークル ", id: "cir"},
+        {name: "お知らせ", id: "inf"},
+    ];
+    $.each(country.categories, function(i, category) {
+      category.items = [];
+      category.url = getUrl(country.id, category.id, "list");
+    });
+  });
+
   $scope.activeCountry = 0;     // select UK by default
   $scope.activeCategory = 0;    // select acm by default
   $scope.search = {query: ""};
