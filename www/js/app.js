@@ -115,6 +115,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   ];
   $scope.activeCountry = 0;     // select UK by default
   $scope.activeCategory = 0;    // select acm by default
+  $scope.search = {query: ""};
 
   // Download data from external website
   $scope.fetchData = function(url) {
@@ -148,13 +149,15 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
 
   // TODO: merge with updateItems()
   $scope.searchItem = function(query) {
-    console.log("searchItem: " + query)
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
     var dirname = category.url.replace(/\/[^\/]+$/, '/');
 
     // HACK: replace list with search
     var searchUrl = category.url.replace(/list/, 'search');
+
+    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
+    $scope.search.query = "";
 
     // TODO: implement error handling
     $http({
