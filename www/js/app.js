@@ -159,7 +159,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     // TODO: implement error handling
     $http({
           method: 'POST',
-          url: 'http://www.mixb.jp/uk/acm/acm_search_f.php',
+          url: searchUrl,
           data: $.param({'sc_word':query}),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).success(function(data) {
