@@ -1,18 +1,6 @@
 app = angular.module('MixB', ['ionic'])
 
-// Setup
-app.config(function($httpProvider) {
-  $httpProvider.interceptors.push(function($rootScope) {
-    return {
-      response: function(response) {
-        $rootScope.$broadcast('loading:hide')
-        return response
-      }
-    }
-  });
-});
-
-app.run(function($ionicPlatform, $rootScope, $ionicLoading) {
+app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -21,14 +9,9 @@ app.run(function($ionicPlatform, $rootScope, $ionicLoading) {
       StatusBar.styleDefault();
     }
   });
-
-  $rootScope.$on('loading:hide', function() {
-    $ionicLoading.hide()
-    $rootScope.$broadcast('scroll.refreshComplete');
-  });
 });
 
-app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate, $ionicLoading) {
+app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate, $ionicLoading, $rootScope) {
   // Main model data: country -> category -> item
   $scope.countries = [
     {name: "イギリス",
@@ -117,16 +100,12 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   $scope.activeCategory = 0;    // select acm by default
   $scope.search = {query: ""};
 
-  // Download data from external website
-  $scope.fetchData = function(url) {
-    return $http.get(url)
-      .error(function() {
-        $ionicLoading.show({
-          template: '読み込めませんでした：' + url,
-          noBackdrop: true,
-          duration: 2000
-        });
-      });
+  function handleError(url) {
+    $ionicLoading.show({
+      template: '読み込めませんでした：' + url,
+      noBackdrop: true,
+      duration: 2000
+    });
   }
 
   $scope.updateItems = function(index) {
@@ -135,7 +114,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     var category = country.categories[index];
     var dirname = category.url.replace(/\/[^\/]+$/, '/');
 
-    $scope.fetchData(category.url).success(function(data) {
+    $http.get(category.url).success(function(data) {
       var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
       var rows = contents.find('tbody > tr');
       category.items = rows.map(function(i,e) {
@@ -144,7 +123,9 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
           url: dirname + $(e).find('a').attr('href'),
         };
       }).get();
-    });
+      $ionicLoading.hide()
+      $rootScope.$broadcast('scroll.refreshComplete');
+    }).error(function() {handleError(url);});
   }
 
   // TODO: merge with updateItems()
@@ -159,7 +140,6 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
     $scope.search.query = "";
 
-    // TODO: implement error handling
     $http({
           method: 'POST',
           url: searchUrl,
@@ -175,7 +155,9 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
           url: dirname + $(e).find('a').attr('href'),
         };
       }).get();
-    });
+      $ionicLoading.hide()
+      $rootScope.$broadcast('scroll.refreshComplete');
+    }).error(function() {handleError(searchUrl);});
   }
 
   // modal view for item detail
@@ -193,7 +175,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
 
     $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
 
-    $scope.fetchData(url).success(function(data) {
+    $http.get(url).success(function(data) {
       var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
       // replace image path to absolute url
       contents.find('img').each(function() {
@@ -206,7 +188,9 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       $scope.content = body.find('div:eq(0)').html();
       $scope.photo = body.find('div:eq(1)').html();
       $scope.modal.show();
-    });
+      $ionicLoading.hide();
+      $rootScope.$broadcast('scroll.refreshComplete');
+    }).error(function() {handleError(url);});
   }
 
   $scope.closeItemDetail = function() {
