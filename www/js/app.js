@@ -1,4 +1,4 @@
-app = angular.module('MixB', ['ionic', 'ngSanitize'])
+app = angular.module('MixB', ['ionic'])
 
 // Setup
 app.config(function($httpProvider) {
