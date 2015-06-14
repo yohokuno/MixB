@@ -12,8 +12,16 @@ app.run(function($ionicPlatform) {
 });
 
 app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate, $ionicLoading, $rootScope) {
-  function getUrl(country, category, action) {
-    var suffix = category + "/" + category + "_" + action + "_f.php";
+  function getUrl(country, category, action, id) {
+    var suffix = category + "/";
+    if (action) {
+      suffix += category + "_" + action;
+      if (!id) {
+        suffix += "_f.php";
+      } else {
+        suffix += "_fs.php?id=" + id;
+      }
+    }
     if (country == "uk") {
       switch (category) {
         case "ser": case "cir": case "info":
@@ -75,9 +83,10 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     $scope.activeCategory = index;
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[index];
-    var dirname = category.url.replace(/\/[^\/]+$/, '/');
+    var dirname = getUrl(country.id, category.id);
+    var url = getUrl(country.id, category.id, "list");
 
-    $http.get(category.url).success(function(data) {
+    $http.get(url).success(function(data) {
       var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
       var rows = contents.find('tbody > tr').filter(function(i,e) {return $(e).find('td > a').length == 1});
       category.items = rows.map(function(i,e) {
@@ -95,17 +104,15 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   $scope.searchItem = function(query) {
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
-    var dirname = category.url.replace(/\/[^\/]+$/, '/');
-
-    // HACK: replace list with search
-    var searchUrl = category.url.replace(/list/, 'search');
+    var dirname = getUrl(country.id, category.id);
+    var url = getUrl(country.id, category.id, "search");
 
     $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
     $scope.search.query = "";
 
     $http({
           method: 'POST',
-          url: searchUrl,
+          url: url,
           data: $.param({'sc_word':query}),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).success(function(data) {
@@ -120,7 +127,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       }).get();
       $ionicLoading.hide()
       $rootScope.$broadcast('scroll.refreshComplete');
-    }).error(function() {handleError(searchUrl);});
+    }).error(function() {handleError(url);});
   }
 
   // modal view for item detail
@@ -134,7 +141,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   $scope.openItemDetail = function(url) {
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
-    var dirname = category.url.replace(/\/[^\/]+$/, '/');
+    var dirname = getUrl(country.id, category.id);
 
     $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
 
