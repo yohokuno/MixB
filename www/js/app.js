@@ -24,7 +24,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     }
     if (country == "uk") {
       switch (category) {
-        case "ser": case "cir": case "info":
+        case "ser": case "cir": case "inf":
           return "http://www.mixb.net/" + suffix;
         default:
           return "http://www.mixb.jp/uk/" + suffix;
