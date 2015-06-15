@@ -58,7 +58,7 @@
 
           <ion-slide-box show-pager="false" ion-slide-tabs
             active-slide="activeCategory"
-            on-slide-changed="updateItems($index); showLoading();">
+            on-slide-changed="onSlideChanged($index);">
             <ion-slide ng-repeat="category in countries[activeCountry].categories"
                 ion-slide-tab-label="{{category.name}}">
 

@@ -91,10 +91,10 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
           url: dirname + $(e).find('td > a').attr('href'),
         };
       }).get();
-      $ionicLoading.hide()
+      $ionicLoading.hide();
       $rootScope.$broadcast('scroll.refreshComplete');
     }).error(function() {handleError(url);});
-  }
+  };
 
   // TODO: merge with updateItems()
   $scope.searchItem = function(query) {
@@ -121,10 +121,10 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
           url: dirname + $(e).find('td > a').attr('href'),
         };
       }).get();
-      $ionicLoading.hide()
+      $ionicLoading.hide();
       $rootScope.$broadcast('scroll.refreshComplete');
     }).error(function() {handleError(url);});
-  }
+  };
 
   // modal view for item detail
   $ionicModal.fromTemplateUrl('item-detail.html', {
@@ -157,7 +157,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       $ionicLoading.hide();
       $rootScope.$broadcast('scroll.refreshComplete');
     }).error(function() {handleError(url);});
-  }
+  };
 
   $scope.closeItemDetail = function() {
     $scope.modal.hide();
@@ -170,11 +170,12 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     $scope.activeCategory = 0;
     $scope.updateItems($scope.activeCategory);
     $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
-  }
+  };
 
   $scope.toggleCountries = function() {
     $ionicSideMenuDelegate.toggleLeft();
-  }
+  };
+
   // Show loading screen only when active tab is empty
   $scope.showLoading = function() {
     var country = $scope.countries[$scope.activeCountry];
@@ -182,7 +183,12 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     if (category.items.length == 0) {
       $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
     }
-  }
+  };
+
+  $scope.onSlideChanged = function(index) {
+    $scope.updateItems(index);
+    $scope.showLoading();
+  };
 
   // Initialize
   $scope.showLoading();
