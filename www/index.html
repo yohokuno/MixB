@@ -53,7 +53,7 @@
 
         <ion-content>
           <ion-refresher
-            on-refresh="updateItems(activeCategory);">
+            on-refresh="updateItems();">
           </ion-refresher>
 
           <ion-slide-box show-pager="false" ion-slide-tabs
@@ -62,10 +62,10 @@
             <ion-slide ng-repeat="category in countries[activeCountry].categories"
                 ion-slide-tab-label="{{category.name}}">
 
-              <form ng-submit="searchItem(search.query)" >
+              <form ng-submit="searchItem()" >
                 <label class="item item-input">
                     <i class="icon ion-search placeholder-icon"></i>
-                    <input ng-model="search.query" type="search" placeholder="検索"></input>
+                    <input ng-model="category.query" type="search" placeholder="検索"></input>
                 </label>
               </form>
 
