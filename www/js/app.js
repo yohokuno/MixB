@@ -34,6 +34,19 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     return 'http://' + country + '.mixb.net/' + suffix;
   }
 
+  // parse and extract Mixb's item list
+  function createItems(data, dirname) {
+    var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
+    var rows = contents.find('tbody > tr')
+        .filter(function(i,e) {return $(e).find('td > a').length == 1});
+    return rows.map(function(i,e) {
+      return {
+        title: $(e).find('td > a').text(),
+        url: dirname + $(e).find('td > a').attr('href'),
+      };
+    }).get();
+  }
+
   // Main model data for countries
   $scope.countries = [
     {name: 'イギリス', id: 'uk'},
@@ -86,14 +99,9 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     var url = getUrl(country.id, category.id, 'list');
 
     $http.get(url).success(function(data) {
-      var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
-      var rows = contents.find('tbody > tr').filter(function(i,e) {return $(e).find('td > a').length == 1});
-      category.items = rows.map(function(i,e) {
-        return {
-          title: $(e).find('td > a').text(),
-          url: dirname + $(e).find('td > a').attr('href'),
-        };
-      }).get();
+      var items = createItems(data, dirname);
+      category.items = items;
+
       $ionicLoading.hide();
       $rootScope.$broadcast('scroll.refreshComplete');
     }).error(function() {handleError(url);});
@@ -114,16 +122,8 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
           data: $.param({'sc_word':category.query}),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).success(function(data) {
-      var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
-      console.log(contents.html());
-      var rows = contents.find('tbody > tr').filter(function(i,e) {return $(e).find('td > a').length == 1});
-
-      category.items = rows.map(function(i,e) {
-        return {
-          title: $(e).find('td > a').text(),
-          url: dirname + $(e).find('td > a').attr('href'),
-        };
-      }).get();
+      var items = createItems(data, dirname);
+      category.items = items;
 
       $ionicLoading.hide();
       $rootScope.$broadcast('scroll.refreshComplete');
