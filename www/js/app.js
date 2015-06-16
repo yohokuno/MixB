@@ -56,6 +56,15 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     });
   }
 
+  // Show loading screen only when active tab is empty
+  function showLoading() {
+    var country = $scope.countries[$scope.activeCountry];
+    var category = country.categories[$scope.activeCategory];
+    if (category.items.length == 0) {
+      $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
+    }
+  }
+
   // Main model data for countries
   $scope.countries = [
     {name: 'イギリス', id: 'uk'},
@@ -125,14 +134,6 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     category.query = '';
   };
 
-  // Add modal view for item detail
-  $ionicModal.fromTemplateUrl('item-detail.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function(modal) {
-    $scope.modal = modal
-  });
-
   // Open item detail modal view
   $scope.openItemDetail = function(item) {
     var country = $scope.countries[$scope.activeCountry];
@@ -170,7 +171,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     $scope.activeCountry = index;
     $ionicSideMenuDelegate.toggleLeft(false);
     $scope.activeCategory = 0;
-    $scope.showLoading();
+    showLoading();
     $scope.updateItems();
   };
 
@@ -179,24 +180,23 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     $ionicSideMenuDelegate.toggleLeft();
   };
 
-  // Show loading screen only when active tab is empty
-  $scope.showLoading = function() {
-    var country = $scope.countries[$scope.activeCountry];
-    var category = country.categories[$scope.activeCategory];
-    if (category.items.length == 0) {
-      $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
-    }
-  };
-
   // Slide changed by swiping slide or tapping tab
   $scope.onSlideChanged = function(index) {
     $scope.activeCategory = index;
-    $scope.showLoading();
+    showLoading();
     $scope.updateItems();
   };
 
+  // Add modal view for item detail
+  $ionicModal.fromTemplateUrl('item-detail.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal
+  });
+
   // Initialize
-  $scope.showLoading();
+  showLoading();
   $scope.updateItems();
 });
 
