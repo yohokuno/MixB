@@ -70,10 +70,16 @@
               </form>
 
               <ion-list>
-                <ion-item ng-repeat="item in category.items" ng-click="openItemDetail(item)">
+                <ion-item ng-repeat="item in category.items track by $index"
+                  ng-click="openItemDetail(item)">
                   {{item.title}}
                 </ion-item>
               </ion-list>
+
+              <ion-infinite-scroll>
+                on-infinite="loadMore()"
+              </ion-infinite-scroll>
+
             </ion-slide>
           </ion-slide-box>
         </ion-content>

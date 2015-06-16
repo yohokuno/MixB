@@ -95,6 +95,11 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
         {name: 'サークル ', id: 'cir', items: [], query: ''},
         {name: 'お知らせ', id: 'inf', items: [], query: ''},
     ];
+    $.each(country.categories, function(i, category) {
+      category.items = [];
+      category.query = '';
+      category.page = 1;
+    });
   });
 
   $scope.activeCountry = 0;     // select UK by default
@@ -132,6 +137,25 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     }).error(function() {handleError(url);});
 
     category.query = '';
+  };
+
+  // TODO: merge with update and search items
+  $scope.loadMore = function() {
+    console.log('loadMore');
+    var country = $scope.countries[$scope.activeCountry];
+    var category = country.categories[$scope.activeCategory];
+    var url = getUrl(country.id, category.id, 'list');
+    category.page += 1;
+
+    $http({
+          method: 'POST',
+          url: url,
+          data: $.param({'page_no': category.page}),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    }).success(function(data) {
+      category.items = category.items.concat(createItems(data));
+      $scope.$broadcast('scroll.infiniteScrollComplete');
+    }).error(function() {handleError(url);});
   };
 
   // Open item detail modal view
