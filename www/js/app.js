@@ -40,9 +40,15 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     var rows = contents.find('tbody > tr')
         .filter(function(i,e) {return $(e).find('td > a').length == 1});
     return rows.map(function(i,e) {
+      var link = $(e).find('td > a');
+      var headers = $(e).find('td:not(:last)')
+        .map(function(i,e2){return $(e2).text().trim();})
+        .filter(function(i,e2){return e2 != '';})
+        .get();
       return {
-        title: $(e).find('td > a').text(),
-        id: $(e).find('td > a').attr('href').replace(/^.*=/i, ''),
+        title: link.text(),
+        id: link.attr('href').replace(/^.*=/i, ''),
+        headers: headers,
       };
     }).get();
   }

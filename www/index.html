@@ -70,9 +70,16 @@
               </form>
 
               <ion-list>
-                <ion-item ng-repeat="item in category.items track by $index"
+                <ion-item style="padding:10px"
+                  ng-repeat="item in category.items track by $index"
                   ng-click="openItemDetail(item)">
-                  {{item.title}}
+                  <p>
+                    <span style="padding:2px"
+                        ng-repeat="header in item.headers track by $index">
+                      {{header}}
+                    </span>
+                  </p>
+                  <h2>{{item.title}}</h2>
                 </ion-item>
               </ion-list>
 
@@ -89,7 +96,8 @@
     <script id="item-detail.html" type="text/ng-template">
       <ion-modal-view>
         <ion-header-bar>
-          <a class="button icon-left ion-chevron-left button-clear button-dark" ng-click="closeItemDetail()">戻る</a>
+          <a class="button icon-left ion-chevron-left button-clear button-dark"
+            ng-click="closeItemDetail()">戻る</a>
         </ion-header-bar>
         <ion-content>
           <h3>{{title}}</h3>
