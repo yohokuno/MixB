@@ -201,7 +201,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   };
 
   // Selected country in side menu
-  $scope.selectCountry = function(country, index) {
+  $scope.selectCountry = function(index) {
     $scope.activeCountry = index;
     $ionicSideMenuDelegate.toggleLeft(false);
     $scope.activeCategory = 0;
