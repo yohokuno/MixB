@@ -147,6 +147,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     var url = getUrl(country.id, category.id, 'list');
     console.log('loadMore: ' + category.page);
     category.page += 1;
+    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
 
     $http({
           method: 'POST',
@@ -155,7 +156,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).success(function(data) {
       category.items = category.items.concat(createItems(data));
-      $scope.$broadcast('scroll.infiniteScrollComplete');
+      $ionicLoading.hide();
     }).error(function() {handleError(url);});
   };
 
