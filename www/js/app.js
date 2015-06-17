@@ -86,19 +86,19 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   // Add categories to all countries
   $.each($scope.countries, function(i, country) {
     country.categories = [
-        {name: '住まい', id: 'acm', items: [], query: ''},
-        {name: '求人', id: 'job', items: [], query: ''},
-        {name: '売ります', id: 'sal', items: [], query: ''},
-        {name: '買います', id: 'buy', items: [], query: ''},
-        {name: 'レッスン', id: 'les', items: [], query: ''},
-        {name: 'サービス', id: 'ser', items: [], query: ''},
-        {name: 'サークル ', id: 'cir', items: [], query: ''},
-        {name: 'お知らせ', id: 'inf', items: [], query: ''},
+        {name: '住まい', id: 'acm'},
+        {name: '求人', id: 'job'},
+        {name: '売ります', id: 'sal'},
+        {name: '買います', id: 'buy'},
+        {name: 'レッスン', id: 'les'},
+        {name: 'サービス', id: 'ser'},
+        {name: 'サークル ', id: 'cir'},
+        {name: 'お知らせ', id: 'inf'},
     ];
     $.each(country.categories, function(i, category) {
       category.items = [];
       category.query = '';
-      category.page = 1;
+      category.page = 0;
     });
   });
 
@@ -115,6 +115,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       category.items = createItems(data);
       $ionicLoading.hide();
       $rootScope.$broadcast('scroll.refreshComplete');
+      category.page = 1;
     }).error(function() {handleError(url);});
   };
 
@@ -141,10 +142,10 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
 
   // TODO: merge with update and search items
   $scope.loadMore = function() {
-    console.log('loadMore');
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
     var url = getUrl(country.id, category.id, 'list');
+    console.log('loadMore: ' + category.page);
     category.page += 1;
 
     $http({
@@ -154,11 +155,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).success(function(data) {
       category.items = category.items.concat(createItems(data));
-      $timeout(function() {
-        $timeout(function() {
-          $scope.$broadcast('scroll.infiniteScrollComplete');
-        });
-      });
+      $scope.$broadcast('scroll.infiniteScrollComplete');
     }).error(function() {handleError(url);});
   };
 
@@ -183,8 +180,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       var body = contents.find('tr:eq(2)');
       $scope.content = body.find('div:eq(0)').html();
       $scope.photo = body.find('div:eq(1)').html();
-      $scope.modal.show();
-      $ionicLoading.hide();
+      $scope.modal.show(); $ionicLoading.hide();
 
     }).error(function() {handleError(url);});
   };
@@ -215,6 +211,10 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     $scope.updateItems();
   };
 
+  $scope.$on('$stateChangeSuccess', function() {
+    $scope.loadMore();
+  });
+
   // Add modal view for item detail
   $ionicModal.fromTemplateUrl('item-detail.html', {
     scope: $scope,
@@ -222,9 +222,5 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   }).then(function(modal) {
     $scope.modal = modal
   });
-
-  // Initialize
-  showLoading();
-  $scope.updateItems();
 });
 
