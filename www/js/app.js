@@ -180,7 +180,8 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       var body = contents.find('tr:eq(2)');
       $scope.content = body.find('div:eq(0)').html();
       $scope.photo = body.find('div:eq(1)').html();
-      $scope.modal.show(); $ionicLoading.hide();
+      $scope.modal.show();
+      $ionicLoading.hide();
 
     }).error(function() {handleError(url);});
   };
@@ -211,10 +212,6 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     $scope.updateItems();
   };
 
-  $scope.$on('$stateChangeSuccess', function() {
-    $scope.loadMore();
-  });
-
   // Add modal view for item detail
   $ionicModal.fromTemplateUrl('item-detail.html', {
     scope: $scope,
@@ -222,5 +219,9 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   }).then(function(modal) {
     $scope.modal = modal
   });
+
+  // Initialize
+  showLoading();
+  $scope.updateItems();
 });
 
