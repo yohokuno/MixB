@@ -154,7 +154,11 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).success(function(data) {
       category.items = category.items.concat(createItems(data));
-      $scope.$broadcast('scroll.infiniteScrollComplete');
+      $timeout(function() {
+        $timeout(function() {
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        });
+      });
     }).error(function() {handleError(url);});
   };
 
