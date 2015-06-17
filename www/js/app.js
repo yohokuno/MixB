@@ -19,6 +19,8 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       suffix += category + '_' + action;
       if (!id) {
         suffix += '_f.php';
+      } else if (category == 'buy') {
+        suffix += '_f.php?id=' + id;
       } else {
         suffix += '_fs.php?id=' + id;
       }
