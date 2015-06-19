@@ -206,7 +206,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     $ionicSideMenuDelegate.toggleLeft(false);
     $scope.activeCategory = 0;
     showLoading();
-    $scope.updateItems();
+    //$scope.updateItems();
   };
 
   // Show/hide side menu
@@ -217,8 +217,8 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   // Slide changed by swiping slide or tapping tab
   $scope.onSlideChanged = function(index) {
     $scope.activeCategory = index;
-    showLoading();
-    $scope.updateItems();
+    //showLoading();
+    //$scope.updateItems();
   };
 
   // Add modal view for item detail
@@ -230,7 +230,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   });
 
   // Initialize
-  showLoading();
-  $scope.updateItems();
+//  showLoading();
+//  $scope.updateItems();
 });
 
