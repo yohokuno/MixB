@@ -62,6 +62,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       noBackdrop: true,
       duration: 2000
     });
+    $scope.$broadcast('scroll.infiniteScrollComplete'); 
   }
 
   // Show loading screen only when active tab is empty
@@ -155,7 +156,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     var url = getUrl(country.id, category.id, 'list');
     console.log('loadMore: ' + category.page);
     category.page += 1;
-    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
+    //$ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
 
     $http({
           method: 'POST',
@@ -165,6 +166,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     }).success(function(data) {
       category.items = category.items.concat(createItems(data));
       $ionicLoading.hide();
+      $scope.$broadcast('scroll.infiniteScrollComplete'); 
     }).error(function() {handleError(url);});
   };
 
