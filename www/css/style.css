@@ -5,3 +5,13 @@
 .scroll {
     min-width: 100%;
 }
+
+.bar-subheader {
+    height: auto;
+    padding: 0px;
+}
+
+.bar .button-tab {
+    font-size: 15px;
+    padding: 5px 10px;
+}
