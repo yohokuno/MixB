@@ -1,1 +1,7 @@
-/* Empty. Add your own CSS if you like */
+.wide-as-needed {
+    overflow: scroll;
+    white-space: nowrap;
+}
+.scroll {
+    min-width: 100%;
+}

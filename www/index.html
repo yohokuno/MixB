@@ -7,13 +7,11 @@
     <title>MixB</title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="lib/slidingTabs.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
     <!-- ionic/angularjs js -->
     <script src="lib/jquery-2.1.4.js"></script>
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <script src="lib/slidingTabsDirective.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -49,6 +47,16 @@
             <i class="icon ion-navicon"></i>
           </button>
           <h1 class="title">MixB {{countries[activeCountry].name}}</h1>
+        </ion-header-bar>
+
+        <ion-header-bar class="bar-subheader">
+          <ion-scroll direction="x" class="wide-as-needed">
+            <a class="button"
+              ng-repeat="category in countries[activeCategory].categories"
+              ng-click="onSlideChanged($index)">
+              {{category.name}}
+            </a>
+          </ion-scroll>
         </ion-header-bar>
 
         <ion-content>
