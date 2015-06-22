@@ -11,7 +11,7 @@ app.run(function($ionicPlatform) {
   });
 });
 
-app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate, $ionicLoading, $rootScope) {
+app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate, $ionicLoading, $rootScope, $ionicSlideBoxDelegate) {
   // construct MixB's URL
   function getUrl(country, category, action, id) {
     var suffix = category + '/';
@@ -156,7 +156,6 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     var url = getUrl(country.id, category.id, 'list');
     console.log('loadMore: ' + category.page);
     category.page += 1;
-    //$ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
 
     $http({
           method: 'POST',
@@ -208,7 +207,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     $ionicSideMenuDelegate.toggleLeft(false);
     $scope.activeCategory = 0;
     showLoading();
-    //$scope.updateItems();
+    $scope.updateItems();
   };
 
   // Show/hide side menu
@@ -219,9 +218,17 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   // Slide changed by swiping slide or tapping tab
   $scope.onSlideChanged = function(index) {
     $scope.activeCategory = index;
-    //showLoading();
-    //$scope.updateItems();
+    showLoading();
+    $scope.updateItems();
   };
+
+  // Tab selected
+  $scope.onTabSelected = function(index) {
+    $ionicSlideBoxDelegate.slide(index);
+    $scope.activeCategory = index;
+    showLoading();
+    $scope.updateItems();
+  }
 
   // Add modal view for item detail
   $ionicModal.fromTemplateUrl('item-detail.html', {
@@ -232,7 +239,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   });
 
   // Initialize
-//  showLoading();
-//  $scope.updateItems();
+  showLoading();
+  $scope.updateItems();
 });
 
