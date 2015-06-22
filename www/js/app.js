@@ -62,6 +62,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       noBackdrop: true,
       duration: 2000
     });
+    $scope.$broadcast('scroll.infiniteScrollComplete');
   }
 
   // Show loading screen only when active tab is empty
@@ -149,11 +150,13 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   };
 
   // TODO: merge with update and search items
-  $scope.loadMore = function() {
+  $scope.loadMore = function(index) {
     var country = $scope.countries[$scope.activeCountry];
-    var category = country.categories[$scope.activeCategory];
+    var category = country.categories[index];
     var url = getUrl(country.id, category.id, 'list');
-    console.log('loadMore: ' + category.page);
+    console.log('loadMore: ' + index + ', page: ' + category.page);
+    if (index != $scope.activeCountry)
+      return;
     category.page += 1;
     $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
 
@@ -165,6 +168,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     }).success(function(data) {
       category.items = category.items.concat(createItems(data));
       $ionicLoading.hide();
+      $scope.$broadcast('scroll.infiniteScrollComplete');
     }).error(function() {handleError(url);});
   };
 

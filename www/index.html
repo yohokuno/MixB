@@ -81,11 +81,8 @@
                   </p>
                   <h2>{{item.title}}</h2>
                 </ion-item>
+                <ion-infinite-scroll on-infinite="loadMore($index)" immediate-check="false"></ion-infinite-scroll>
               </ion-list>
-
-              <button class="button button-block button-positive" ng-click="loadMore()">
-                次のページ
-              </button>
 
             </ion-slide>
           </ion-slide-box>
