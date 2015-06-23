@@ -27,41 +27,41 @@
 }
 
 .bar .acm {
-    background: linear-gradient(#EF4DB6, #C643FC);
-    border-color: #CA2677;
+    background: linear-gradient(#FF71FF, #CB2777);
+    border-color: #CB2777;
 }
 
 .bar .job {
-    background: linear-gradient(#1AD6FD, #1D62F0);
-    border-color: #5258A2;
+    background: linear-gradient(#9AA5E2, #5358A3);
+    border-color: #5358A3;
 }
 
 .bar .sal {
-    background: linear-gradient(#87FC70, #0BD318);
-    border-color: #05A53D;
+    background: linear-gradient(#58DA72, #06A63E);
+    border-color: #06A63E;
 }
 
 .bar .buy {
-    background: linear-gradient(#FF9500, #FF5E3A);
-    border-color: #F42A15;
+    background: linear-gradient(#FF7F2D, #F52B15);
+    border-color: #F52B15;
 }
 
 .bar .les {
-    background: linear-gradient(#FFDB4C, #FFCD02);
-    border-color: #AE2200;
+    background: linear-gradient(#E39900, #AF2200);
+    border-color: #AF2200;
 }
 
 .bar .ser {
-    background: linear-gradient(#52EDC7, #5AC8FB);
-    border-color: #A2525C;
+    background: linear-gradient(#E29AA3, #A3535D);
+    border-color: #A3535D;
 }
 
 .bar .cir {
-    background: linear-gradient(#C644FC, #5856D6);
-    border-color: #A51EBE;
+    background: linear-gradient(#B775F0, #A42ABC);
+    border-color: #A42ABC;
 }
 
 .bar .inf {
-    background: linear-gradient(#DBDDDE, #898C90);
-    border-color: #2D2D2D;
+    background: linear-gradient(#929292, #2E2E2E);
+    border-color: #2E2E2E;
 }
