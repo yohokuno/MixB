@@ -27,41 +27,41 @@
 }
 
 .bar .acm {
-    background-color: #E747B8;
+    background: linear-gradient(#EF4DB6, #C643FC);
     border-color: #CA2677;
 }
 
 .bar .job {
-    background-color: #7B83C5;
+    background: linear-gradient(#1AD6FD, #1D62F0);
     border-color: #5258A2;
 }
 
 .bar .sal {
-    background-color: #2EC357;
+    background: linear-gradient(#87FC70, #0BD318);
     border-color: #05A53D;
 }
 
 .bar .buy {
-    background-color: #FF5B22;
+    background: linear-gradient(#FF9500, #FF5E3A);
     border-color: #F42A15;
 }
 
 .bar .les {
-    background-color: #D56A00;
+    background: linear-gradient(#FFDB4C, #FFCD02);
     border-color: #AE2200;
 }
 
 .bar .ser {
-    background-color: #C97F89;
+    background: linear-gradient(#52EDC7, #5AC8FB);
     border-color: #A2525C;
 }
 
 .bar .cir {
-    background-color: #B347DC;
+    background: linear-gradient(#C644FC, #5856D6);
     border-color: #A51EBE;
 }
 
 .bar .inf {
-    background-color: #616161;
+    background: linear-gradient(#DBDDDE, #898C90);
     border-color: #2D2D2D;
 }
