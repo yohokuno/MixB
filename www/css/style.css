@@ -17,5 +17,51 @@
     border-radius: 5px 5px 0px 0px;
     border-width: 2px 2px 0px 2px;
     margin: 0px -1px 0px -1px;
-    min-width: 60px;
+    min-width: 70px;
+    color: white;
+}
+
+.bar .button-active {
+    font-weight: bold;
+    z-index: 2;
+}
+
+.bar .acm {
+    background-color: #E747B8;
+    border-color: #CA2677;
+}
+
+.bar .job {
+    background-color: #7B83C5;
+    border-color: #5258A2;
+}
+
+.bar .sal {
+    background-color: #2EC357;
+    border-color: #05A53D;
+}
+
+.bar .buy {
+    background-color: #FF5B22;
+    border-color: #F42A15;
+}
+
+.bar .les {
+    background-color: #D56A00;
+    border-color: #AE2200;
+}
+
+.bar .ser {
+    background-color: #C97F89;
+    border-color: #A2525C;
+}
+
+.bar .cir {
+    background-color: #B347DC;
+    border-color: #A51EBE;
+}
+
+.bar .inf {
+    background-color: #616161;
+    border-color: #2D2D2D;
 }
