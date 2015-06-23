@@ -58,7 +58,7 @@
           </ion-scroll>
         </ion-header-bar>
 
-        <ion-content>
+        <ion-content has-header="true" delegate-handle="main">
           <ion-refresher
             on-refresh="updateItems()">
           </ion-refresher>
@@ -74,7 +74,7 @@
                 </label>
               </form>
 
-              <ion-list>
+              <ion-list ng-if="activeCategory === $index">
                 <ion-item style="padding:10px"
                   ng-repeat="item in category.items track by $index"
                   ng-click="openItemDetail(item)">
@@ -92,7 +92,7 @@
 
           <ion-infinite-scroll
             on-infinite="loadMore()"
-            immediate-check="false">
+            immediate-check="true">
           </ion-infinite-scroll>
 
         </ion-content>
