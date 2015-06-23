@@ -101,7 +101,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
         {name: '買います', id: 'buy'},
         {name: 'レッスン', id: 'les'},
         {name: 'サービス', id: 'ser'},
-        {name: 'サークル ', id: 'cir'},
+        {name: 'サークル', id: 'cir'},
         {name: 'お知らせ', id: 'inf'},
     ];
     $.each(country.categories, function(i, category) {
