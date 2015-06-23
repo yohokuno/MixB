@@ -62,7 +62,6 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       noBackdrop: true,
       duration: 2000
     });
-    $scope.$broadcast('scroll.infiniteScrollComplete'); 
   }
 
   // Show loading screen only when active tab is empty
