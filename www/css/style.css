@@ -9,6 +9,7 @@
 .bar-subheader {
     height: auto;
     padding: 0px;
+    background: #808080;
 }
 
 .bar .button-tab {
@@ -19,11 +20,13 @@
     margin: 0px -1px 0px -1px;
     min-width: 70px;
     color: white;
+    opacity: 0.5;
 }
 
-.bar .button-active {
+.bar .active {
     font-weight: bold;
     z-index: 2;
+    opacity: 1.0;
 }
 
 .bar .acm {

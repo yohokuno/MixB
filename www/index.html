@@ -52,8 +52,8 @@
         <ion-header-bar class="bar-subheader">
           <ion-scroll direction="x" scrollbar-x="false" scrollbar-y="false" class="wide-as-needed">
             <button class="button button-tab"
-              ng-repeat="category in countries[activeCategory].categories"
-              ng-class="[category.id, {'button-active': $index == activeCategory}]"
+              ng-repeat="category in countries[activeCountry].categories"
+              ng-class="category.id + ((activeCategory == $index) ? ' active'  : '')"
               ng-click="onTabSelected($index)">{{category.name}}</button>
           </ion-scroll>
         </ion-header-bar>
