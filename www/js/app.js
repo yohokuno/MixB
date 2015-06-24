@@ -86,17 +86,13 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     var tabWidth = tab.width();
     var tabLeft = ionic.DomUtil.getPositionInParent(tab[0]).left;
     var scrollWidth = $('ion-header-bar.bar-subheader').width();
-    var scroll = $ionicScrollDelegate.$getByHandle('tab-bar');
-    var scrollLeft = scroll.getScrollPosition().left;
     var scrollTo = tabLeft + tabWidth / 2 - scrollWidth / 2;
     // TODO: limit maximum of scrollTo
     scrollTo = Math.max(scrollTo, 0);
-    console.log('tabWidth: ' + tabWidth);
-    console.log('tabLeft: ' + tabLeft);
-    console.log('scrollWidth: ' + scrollWidth);
-    console.log('scrollLeft: ' + scrollLeft);
-    console.log('scrollTo: ' + scrollTo);
+
+    var scroll = $ionicScrollDelegate.$getByHandle('tab-bar');
     scroll.scrollTo(scrollTo, 0, true);
+    console.log('autoScrollTabBar: ' + tabLeft + ' + ' + tabWidth + ' / 2 - ' + scrollWidth + ' / 2 = ' + scrollTo);
   }
 
   // Main model data for countries
