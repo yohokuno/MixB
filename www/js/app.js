@@ -28,6 +28,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
         suffix += '_fs.php?id=' + id;
       }
     }
+    // Connect to proxy
     if (document.location.hostname == 'localhost') {
       return '/uk/' + suffix;
     }
