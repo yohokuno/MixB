@@ -9,6 +9,7 @@
 .bar-subheader {
     height: auto;
     padding: 0px;
+    background: #808080;
 }
 
 .bar .button-tab {
@@ -16,4 +17,54 @@
     padding: 5px 10px;
     border-radius: 5px 5px 0px 0px;
     border-width: 2px 2px 0px 2px;
+    margin: 0px -1px 0px -1px;
+    min-width: 80px;
+    color: white;
+    opacity: 0.5;
+}
+
+.bar .active {
+    font-weight: bold;
+    z-index: 2;
+    opacity: 1.0;
+}
+
+.bar .acm {
+    background: linear-gradient(#FF71FF, #CB2777);
+    border-color: #CB2777;
+}
+
+.bar .job {
+    background: linear-gradient(#9AA5E2, #5358A3);
+    border-color: #5358A3;
+}
+
+.bar .sal {
+    background: linear-gradient(#58DA72, #06A63E);
+    border-color: #06A63E;
+}
+
+.bar .buy {
+    background: linear-gradient(#FF7F2D, #F52B15);
+    border-color: #F52B15;
+}
+
+.bar .les {
+    background: linear-gradient(#E39900, #AF2200);
+    border-color: #AF2200;
+}
+
+.bar .ser {
+    background: linear-gradient(#E29AA3, #A3535D);
+    border-color: #A3535D;
+}
+
+.bar .cir {
+    background: linear-gradient(#B775F0, #A42ABC);
+    border-color: #A42ABC;
+}
+
+.bar .inf {
+    background: linear-gradient(#929292, #2E2E2E);
+    border-color: #2E2E2E;
 }

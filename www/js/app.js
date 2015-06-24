@@ -12,7 +12,7 @@ app.run(function($ionicPlatform) {
   });
 });
 
-app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate, $ionicLoading, $rootScope, $ionicSlideBoxDelegate) {
+app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate, $ionicLoading, $rootScope, $ionicSlideBoxDelegate, $ionicScrollDelegate, $timeout) {
   // construct MixB's URL
   function getUrl(country, category, action, id) {
     var suffix = category + '/';
@@ -63,7 +63,6 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       noBackdrop: true,
       duration: 2000
     });
-    $scope.$broadcast('scroll.infiniteScrollComplete'); 
   }
 
   // Show loading screen only when active tab is empty
@@ -102,7 +101,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
         {name: '買います', id: 'buy'},
         {name: 'レッスン', id: 'les'},
         {name: 'サービス', id: 'ser'},
-        {name: 'サークル ', id: 'cir'},
+        {name: 'サークル', id: 'cir'},
         {name: 'お知らせ', id: 'inf'},
     ];
     $.each(country.categories, function(i, category) {
@@ -117,6 +116,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
 
   // update items in active category of active country
   $scope.updateItems = function() {
+    console.log('updateItems: ' + $scope.activeCategory);
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
     var url = getUrl(country.id, category.id, 'list');
@@ -125,6 +125,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       category.items = createItems(data);
       $ionicLoading.hide();
       $rootScope.$broadcast('scroll.refreshComplete');
+      $scope.$broadcast('scroll.infiniteScrollComplete'); 
       category.page = 1;
     }).error(function() {handleError(url);});
   };
@@ -134,6 +135,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
     var url = getUrl(country.id, category.id, 'search');
+    console.log('searchItem: ' + category.query);
 
     $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
 
@@ -145,6 +147,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     }).success(function(data) {
       category.items = createItems(data);
       $ionicLoading.hide();
+      $scope.$broadcast('scroll.infiniteScrollComplete'); 
     }).error(function() {handleError(url);});
 
     category.query = '';
@@ -172,6 +175,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
 
   // Open item detail modal view
   $scope.openItemDetail = function(item) {
+    console.log('openItemDetail'+ item);
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
     var dirname = getUrl(country.id, category.id);
@@ -193,42 +197,55 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       $scope.photo = body.find('div:eq(1)').html();
       $scope.modal.show();
       $ionicLoading.hide();
+      $scope.$broadcast('scroll.infiniteScrollComplete'); 
 
     }).error(function() {handleError(url);});
   };
 
   // Pressed back button on item detail view
   $scope.closeItemDetail = function() {
+    console.log('closeItemDetail');
     $scope.modal.hide();
   };
 
   // Selected country in side menu
   $scope.selectCountry = function(index) {
+    console.log('selectCountry: ' + index);
     $scope.activeCountry = index;
     $ionicSideMenuDelegate.toggleLeft(false);
     $scope.activeCategory = 0;
-    showLoading();
-    $scope.updateItems();
+    //showLoading();
+    //$scope.updateItems();
   };
 
   // Show/hide side menu
   $scope.toggleCountries = function() {
+    console.log('toggleCountries');
     $ionicSideMenuDelegate.toggleLeft();
   };
 
   // Slide changed by swiping slide or tapping tab
   $scope.onSlideChanged = function(index) {
+    console.log('onSlideChanged: ' + index);
     $scope.activeCategory = index;
-    showLoading();
-    $scope.updateItems();
+    //showLoading();
+    //$scope.updateItems();
+    var scroll = $ionicScrollDelegate.$getByHandle('main');
+    scroll.scrollTop();
+    $scope.$broadcast('scroll.infiniteScrollComplete'); 
+    $timeout( function() {
+      scroll.resize();
+    }, 50);
   };
 
   // Tab selected
   $scope.onTabSelected = function(index) {
+    console.log('onTabSelected: ' + index);
     $ionicSlideBoxDelegate.slide(index);
     $scope.activeCategory = index;
-    showLoading();
-    $scope.updateItems();
+    $scope.$broadcast('scroll.infiniteScrollComplete'); 
+    //showLoading();
+    //$scope.updateItems();
   }
 
   // Add modal view for item detail
@@ -240,7 +257,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
   });
 
   // Initialize
-  showLoading();
-  $scope.updateItems();
+  //showLoading();
+  //$scope.updateItems();
 });
 
