@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var app = angular.module('MixB', ['ionic']);
 
 app.run(function($ionicPlatform) {
@@ -74,6 +74,25 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     if (category.items.length == 0) {
       $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
     }
+  }
+
+  // Auto scroll tab bar so active tab come to center
+  function autoScrollTabBar() {
+    var tab = $('button.button-tab:nth-child(' + ($scope.activeCategory + 1) + ')');
+    var tabWidth = tab.width();
+    var tabLeft = ionic.DomUtil.getPositionInParent(tab[0]).left;
+    var scrollWidth = $('ion-header-bar.bar-subheader').width();
+    var scroll = $ionicScrollDelegate.$getByHandle('tab-bar');
+    var scrollLeft = scroll.getScrollPosition().left;
+    var scrollTo = tabLeft + tabWidth / 2 - scrollWidth / 2;
+    // TODO: limit maximum of scrollTo
+    scrollTo = Math.max(scrollTo, 0);
+    console.log('tabWidth: ' + tabWidth);
+    console.log('tabLeft: ' + tabLeft);
+    console.log('scrollWidth: ' + scrollWidth);
+    console.log('scrollLeft: ' + scrollLeft);
+    console.log('scrollTo: ' + scrollTo);
+    scroll.scrollTo(scrollTo, 0, true);
   }
 
   // Main model data for countries
@@ -238,6 +257,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     $timeout( function() {
       scroll.resize();
     }, 50);
+    autoScrollTabBar();
   };
 
   // Tab selected
@@ -246,6 +266,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     $ionicSlideBoxDelegate.slide(index);
     $scope.activeCategory = index;
     $scope.$broadcast('scroll.infiniteScrollComplete'); 
+    autoScrollTabBar();
     //showLoading();
     //$scope.updateItems();
   }
