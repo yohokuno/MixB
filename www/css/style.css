@@ -16,7 +16,7 @@
     font-size: 15px;
     padding: 5px 10px;
     border-radius: 5px 5px 0px 0px;
-    border-width: 2px 2px 0px 2px;
+    border-width: 1px 1px 0px 1px;
     margin: 0px -1px 0px -1px;
     min-width: 80px;
     color: white;
@@ -24,7 +24,6 @@
 }
 
 .bar .active {
-    font-weight: bold;
     z-index: 2;
     opacity: 1.0;
 }
