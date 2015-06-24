@@ -12,7 +12,9 @@ app.run(function($ionicPlatform) {
   });
 });
 
-app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDelegate, $ionicLoading, $rootScope, $ionicSlideBoxDelegate, $ionicScrollDelegate, $timeout) {
+app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
+            $ionicModal, $ionicLoading,
+            $ionicSideMenuDelegate, $ionicSlideBoxDelegate, $ionicScrollDelegate) {
   // construct MixB's URL
   function getUrl(country, category, action, id) {
     var suffix = category + '/';
@@ -224,7 +226,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     $ionicSideMenuDelegate.toggleLeft();
   };
 
-  // Slide changed by swiping slide or tapping tab
+  // Slide changed by swiping slide
   $scope.onSlideChanged = function(index) {
     console.log('onSlideChanged: ' + index);
     $scope.activeCategory = index;
