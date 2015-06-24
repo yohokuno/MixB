@@ -125,6 +125,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       category.items = createItems(data);
       $ionicLoading.hide();
       $rootScope.$broadcast('scroll.refreshComplete');
+      $scope.$broadcast('scroll.infiniteScrollComplete'); 
       category.page = 1;
     }).error(function() {handleError(url);});
   };
@@ -146,6 +147,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     }).success(function(data) {
       category.items = createItems(data);
       $ionicLoading.hide();
+      $scope.$broadcast('scroll.infiniteScrollComplete'); 
     }).error(function() {handleError(url);});
 
     category.query = '';
@@ -195,6 +197,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
       $scope.photo = body.find('div:eq(1)').html();
       $scope.modal.show();
       $ionicLoading.hide();
+      $scope.$broadcast('scroll.infiniteScrollComplete'); 
 
     }).error(function() {handleError(url);});
   };
@@ -229,6 +232,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     //$scope.updateItems();
     var scroll = $ionicScrollDelegate.$getByHandle('main');
     scroll.scrollTop();
+    $scope.$broadcast('scroll.infiniteScrollComplete'); 
     $timeout( function() {
       scroll.resize();
     }, 50);
@@ -239,6 +243,7 @@ app.controller('MainCtrl', function($scope, $http, $ionicModal, $ionicSideMenuDe
     console.log('onTabSelected: ' + index);
     $ionicSlideBoxDelegate.slide(index);
     $scope.activeCategory = index;
+    $scope.$broadcast('scroll.infiniteScrollComplete'); 
     //showLoading();
     //$scope.updateItems();
   }
