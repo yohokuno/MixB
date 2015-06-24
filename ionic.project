@@ -1,4 +1,10 @@
 {
   "name": "MixB",
-  "app_id": ""
+  "app_id": "",
+  "proxies": [
+    {
+      "path": "/uk",
+      "proxyUrl": "http://www.mixb.jp/uk"
+    }
+  ]
 }

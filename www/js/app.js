@@ -28,6 +28,9 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
         suffix += '_fs.php?id=' + id;
       }
     }
+    if (document.location.hostname == 'localhost') {
+      return '/uk/' + suffix;
+    }
     if (country == 'uk') {
       switch (category) {
         case 'ser': case 'cir': case 'inf':
