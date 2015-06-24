@@ -39,12 +39,12 @@
 }
 
 .bar .sal {
-    background: linear-gradient(#58DA72, #06A63E);
+    background: linear-gradient(#58DA72, #05A53D);
     border-color: #06A63E;
 }
 
 .bar .buy {
-    background: linear-gradient(#FF7F2D, #F52B15);
+    background: linear-gradient(#FF7F2D, #F42A15);
     border-color: #F52B15;
 }
 
@@ -59,7 +59,7 @@
 }
 
 .bar .cir {
-    background: linear-gradient(#B775F0, #A42ABC);
+    background: linear-gradient(#B871F3, #A51EBE);
     border-color: #A42ABC;
 }
 
