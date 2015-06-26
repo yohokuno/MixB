@@ -16,6 +16,7 @@ I also use WebStorm as IDE, Karma and Jasmine for unit testing, Bower and NPM fo
 
 ## Run on Android
     ionic platform add android
+    ionic plugin add cordova-plugin-whitelist
     ionic run android --device
 
 ## Run on iPhone simulator
