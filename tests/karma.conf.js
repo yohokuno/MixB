@@ -15,7 +15,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      '../www/lib/angular/angular.js',
+      '../www/lib/jquery/dist/jquery.js',
+      '../www/lib/ionic/js/ionic.bundle.js',
       '../www/lib/angular-mocks/angular-mocks.js',
       '../www/js/*.js',
       '**/*tests.js'
@@ -65,4 +66,4 @@ module.exports = function(config) {
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false
   })
-}
+};
