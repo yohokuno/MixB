@@ -57,7 +57,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
       return {
         title: link.text(),
         id: link.attr('href').replace(/^.*=/i, ''),
-        headers: headers,
+        headers: headers
       };
     }).get();
   }
@@ -69,15 +69,6 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
       noBackdrop: true,
       duration: 2000
     });
-  }
-
-  // Show loading screen only when active tab is empty
-  function showLoading() {
-    var country = $scope.countries[$scope.activeCountry];
-    var category = country.categories[$scope.activeCategory];
-    if (category.items.length == 0) {
-      $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
-    }
   }
 
   // Auto scroll tab bar so active tab come to center
@@ -110,7 +101,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     {name: 'ニュージーランド', id: 'nz'},
     {name: 'シンガポール', id: 'sin'},
     {name: '上海', id: 'sha'},
-    {name: '香港', id: 'hkg'},
+    {name: '香港', id: 'hkg'}
   ];
 
   // Add categories to all countries
@@ -123,7 +114,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
         {name: 'レッスン', id: 'les'},
         {name: 'サービス', id: 'ser'},
         {name: 'サークル', id: 'cir'},
-        {name: 'お知らせ', id: 'inf'},
+        {name: 'お知らせ', id: 'inf'}
     ];
     $.each(country.categories, function(i, category) {
       category.items = [];
@@ -158,7 +149,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     var url = getUrl(country.id, category.id, 'search');
     console.log('searchItem: ' + category.query);
 
-    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
+    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
 
     $http({
           method: 'POST',
@@ -202,7 +193,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     var dirname = getUrl(country.id, category.id);
     var url = getUrl(country.id, category.id, 'detail', item.id);
 
-    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true})
+    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
 
     $http.get(url).success(function(data) {
       var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
@@ -235,8 +226,6 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     $scope.activeCountry = index;
     $ionicSideMenuDelegate.toggleLeft(false);
     $scope.activeCategory = 0;
-    //showLoading();
-    //$scope.updateItems();
   };
 
   // Show/hide side menu
@@ -249,8 +238,6 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   $scope.onSlideChanged = function(index) {
     console.log('onSlideChanged: ' + index);
     $scope.activeCategory = index;
-    //showLoading();
-    //$scope.updateItems();
     var scroll = $ionicScrollDelegate.$getByHandle('main');
     scroll.scrollTop();
     $scope.$broadcast('scroll.infiniteScrollComplete'); 
@@ -267,9 +254,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     $scope.activeCategory = index;
     $scope.$broadcast('scroll.infiniteScrollComplete'); 
     autoScrollTabBar();
-    //showLoading();
-    //$scope.updateItems();
-  }
+  };
 
   // Add modal view for item detail
   $ionicModal.fromTemplateUrl('item-detail.html', {
@@ -278,9 +263,5 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   }).then(function(modal) {
     $scope.modal = modal
   });
-
-  // Initialize
-  //showLoading();
-  //$scope.updateItems();
 });
 
