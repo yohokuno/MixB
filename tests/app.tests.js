@@ -13,5 +13,6 @@ describe('Controllers', function(){
     // tests start here
     it('should have set active country to UK', function(){
         expect(scope.activeCountry).toEqual(0);
+        expect(scope.activeCategory).toEqual(0);
     });
 });
