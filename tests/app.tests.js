@@ -1,7 +1,6 @@
 describe('Controllers', function(){
     var scope;
 
-    // load the controller's module
     beforeEach(module('ionic'));
     beforeEach(module('MixB'));
 
@@ -10,9 +9,17 @@ describe('Controllers', function(){
         $controller('MainCtrl', {$scope: scope});
     }));
 
-    // tests start here
-    it('should have set active country to UK', function(){
+    it('should initialize with UK, acm category', function(){
         expect(scope.activeCountry).toEqual(0);
         expect(scope.activeCategory).toEqual(0);
     });
+/*
+    it('select tab', function(){
+        scope.onSlideChanged(1);
+        expect(scope.activeCategory).toEqual(1);
+
+        scope.onTabSelected(2);
+        expect(scope.activeCategory).toEqual(2);
+    });
+*/
 });
