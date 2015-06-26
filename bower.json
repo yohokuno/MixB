@@ -3,6 +3,7 @@
   "private": "true",
   "devDependencies": {
     "ionic": "driftyco/ionic-bower#1.0.0",
-    "jquery": "jquery/jquery#2.1.4"
+    "jquery": "jquery/jquery#2.1.4",
+    "angular-mocks": "~1.4.1"
   }
 }
