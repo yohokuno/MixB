@@ -100,8 +100,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     var seen = {};
     return items.filter(function(item) {
       if (seen.hasOwnProperty(item.id)) {
-//        console.log('Warning: removed duplicate: ' + JSON.stringify(item));
-        console.log('Warning: removed duplicate');
+        console.log('Warning: removed duplicate: ' + JSON.stringify(item));
         return false;
       }
       seen[item.id] = true;
@@ -157,28 +156,24 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     var url = getUrl(country.id, category.id, 'list');
     console.log('loadItems; page: ' + category.page + ', category:' + $scope.activeCategory);
 
-    var request;
+    var request = {
+      url: url,
+      headers: {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'ja-jp',
+        'Cache-Control': 'max-age=0'
+      }
+    };
 
     if (category.page == 0) {
-      request = {
-        method: 'GET',
-        url: url
-      };
+      request.method = 'GET';
     } else {
-      request = {
-        method: 'POST',
-        url: url,
-        data: $.param({
-          'page_timestamp': category.timestamp,
-          'page_no': category.page + 1
-        }),
-        headers: {
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-          'Accept-Language': 'en-GB,en;q=0.8,ja;q=0.6,es;q=0.4,pt;q=0.2',
-          'Cache-Control': 'max-age=0',
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      };
+      request.method = 'POST';
+      request.data = $.param({
+        'page_timestamp': category.timestamp,
+        'page_no': category.page + 1
+      });
+      request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     }
     console.log('Request: ' + JSON.stringify(request, null, 2));
 
