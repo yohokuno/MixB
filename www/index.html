@@ -30,9 +30,17 @@
           <button class="button button-icon" ng-click="toggleCountries()">
             <i class="icon ion-navicon"></i>
           </button>
+
           <h1 class="title">MixB {{countries[activeCountry].name}}</h1>
-          <button class="button button-icon">
+
+          <button class="button button-icon" ng-click="onSearchClicked()"
+                  ng-if="countries[activeCountry].categories[activeCategory].action=='list'">
             <i class="icon ion-search"></i>
+          </button>
+
+          <button class="button button-clear" ng-click="onCancelClicked()"
+                  ng-if="countries[activeCountry].categories[activeCategory].action=='search'">
+            キャンセル
           </button>
         </ion-header-bar>
 
@@ -55,7 +63,7 @@
             on-slide-changed="onSlideChanged($index)">
             <ion-slide ng-repeat="category in countries[activeCountry].categories">
 
-              <form ng-submit="searchItem()" >
+              <form ng-submit="searchItem()" ng-if="category.action=='search'">
                 <label class="item item-input item-select"
                         ng-repeat="attribute in category.attributes">
                   <div class="input-label">{{attribute.label}}</div>

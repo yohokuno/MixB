@@ -75,11 +75,20 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
       category.page = 0;
       category.timestamp = 0;
       category.attributes = [];
+      category.action = 'list';
     });
   });
 
   $scope.activeCountry = 0;     // select UK by default
   $scope.activeCategory = 0;    // select acm by default
+
+  // Add modal view for item detail
+  $ionicModal.fromTemplateUrl('item-detail.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal
+  });
 
   // load and add items in the next page of active category of active country
   $scope.loadItems = function() {
@@ -248,12 +257,18 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
     $scope.loadItems();
   };
 
-  // Add modal view for item detail
-  $ionicModal.fromTemplateUrl('item-detail.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function(modal) {
-    $scope.modal = modal
-  });
+  $scope.onSearchClicked = function() {
+    console.log('onSearchClicked');
+    var country = $scope.countries[$scope.activeCountry];
+    var category = country.categories[$scope.activeCategory];
+    category.action = 'search';
+  }
+
+  $scope.onCancelClicked = function() {
+    console.log('onCancelClicked');
+    var country = $scope.countries[$scope.activeCountry];
+    var category = country.categories[$scope.activeCategory];
+    category.action = 'list';
+  }
 });
 
