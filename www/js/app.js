@@ -91,7 +91,8 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     var seen = {};
     return items.filter(function(item) {
       if (seen.hasOwnProperty(item.id)) {
-        console.log('Warning: removed duplicate: ' + JSON.stringify(item));
+//        console.log('Warning: removed duplicate: ' + JSON.stringify(item));
+        console.log('Warning: removed duplicate');
         return false;
       }
       seen[item.id] = true;
@@ -146,29 +147,41 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     var url = getUrl(country.id, category.id, 'list');
     console.log('loadItems; page: ' + category.page + ', category:' + $scope.activeCategory);
 
-    var request = {
-      url: url,
-      headers: {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'ja-jp',
-        //'Origin': 'http://www.mixb.jp',
-        //'Host': 'www.mixb.jp',
-        //'Referer': url
-      }
-    };
+    var request;
 
     if (category.page == 0) {
-      request.method = 'GET';
+      request = {
+        method: 'GET',
+        url: url
+      };
     } else {
-      request.method = 'POST';
-      request.data = $.param({
-        'page_timestamp': Math.floor(Date.now() / 1000),
-        'page_no': category.page + 1
-      });
-      request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+      request = {
+        method: 'POST',
+        url: url,
+        data: $.param({
+          'page_timestamp': Math.floor(Date.now() / 1000),
+          'page_no': category.page + 1
+        }),
+        headers: {
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+          'Accept-Encoding': 'gzip, deflate',
+          'Accept-Language': 'en-GB,en;q=0.8,ja;q=0.6,es;q=0.4,pt;q=0.2',
+          'Cache-Control': 'max-age=0',
+          'Connection': 'keep-alive',
+          'Content-Length': '35',
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Host': 'www.mixb.jp',
+          'Origin': 'http://www.mixb.jp',
+          'Referer': url,
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.124 Safari/537.36',
+          'Cookie': '__utmt=1; __utma=63938227.593649007.1399683324.1435499333.1435504743.60; __utmb=63938227.7.10.1435504743; __utmc=63938227; __utmz=63938227.1435089470.55.40.utmcsr=mixb.net|utmccn=(referral)|utmcmd=referral|utmcct=/'
+        }
+      };
     }
+    console.log('Request: ' + JSON.stringify(request, null, 2));
 
     $http(request).success(function(data) {
+      var oldLength = category.items.length;
       var newItems = createItems(data);
       if (category.page == 0) {
         category.items = newItems;
@@ -176,8 +189,11 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
         category.items = category.items.concat(newItems);
       }
       category.items = removeDuplicates(category.items);
+      if (category.items.length == oldLength) {
+        console.log('Warning: items not changed!');
+        return;
+      }
       category.page += 1;
-      $ionicLoading.hide();
       $rootScope.$broadcast('scroll.refreshComplete');
       $scope.$broadcast('scroll.infiniteScrollComplete');
     }).error(function() {handleError(url);});
@@ -192,12 +208,15 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
 
     $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
 
-    $http({
-          method: 'POST',
-          url: url,
-          data: $.param({'sc_word': category.query}),
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    }).success(function(data) {
+    var request = {
+      method: 'POST',
+      url: url,
+      data: $.param({'sc_word': category.query}),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    };
+    console.log('Request: ' + JSON.stringify(request, null, 2));
+
+    $http(request).success(function(data) {
       category.items = createItems(data);
       $ionicLoading.hide();
       $scope.$broadcast('scroll.infiniteScrollComplete'); 
