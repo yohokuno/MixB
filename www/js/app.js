@@ -174,17 +174,9 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
         }),
         headers: {
           'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-          'Accept-Encoding': 'gzip, deflate',
           'Accept-Language': 'en-GB,en;q=0.8,ja;q=0.6,es;q=0.4,pt;q=0.2',
           'Cache-Control': 'max-age=0',
-          'Connection': 'keep-alive',
-          'Content-Length': '35',
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Host': 'www.mixb.jp',
-          'Origin': 'http://www.mixb.jp',
-          'Referer': url,
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.124 Safari/537.36',
-          'Cookie': '__utmt=1; __utma=63938227.593649007.1399683324.1435499333.1435504743.60; __utmb=63938227.7.10.1435504743; __utmc=63938227; __utmz=63938227.1435089470.55.40.utmcsr=mixb.net|utmccn=(referral)|utmcmd=referral|utmcct=/'
+          'Content-Type': 'application/x-www-form-urlencoded'
         }
       };
     }
