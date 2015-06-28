@@ -9,16 +9,12 @@ I also use WebStorm as IDE, Karma and Jasmine for unit testing, Bower and NPM fo
 
 
 ## Setup
-    npm install
-    bower install
+    ionic state restore
     gulp test
     ionic serve
 
 ## Run on Android
-    ionic platform add android
-    ionic plugin add cordova-plugin-whitelist
     ionic run android --device
 
 ## Run on iPhone simulator
-    ionic platform add ios
     ionic emulate ios
