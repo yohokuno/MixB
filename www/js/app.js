@@ -62,6 +62,15 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     }).get();
   }
 
+  // get next timestamp
+  function getTimestamp(data) {
+    return $(data)
+        .find('table > tbody > tr > td > table > tbody > tr > td > table')
+        .find('tbody > tr > td > input')
+        .filter(function(i,e){return e.name == 'page_timestamp'})
+        .last().attr('value');
+  }
+
   // helper function to show error message
   function handleError(url) {
     $ionicLoading.show({
@@ -134,6 +143,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
       category.items = [];
       category.query = '';
       category.page = 0;
+      category.timestamp = 0;
     });
   });
 
@@ -159,7 +169,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
         method: 'POST',
         url: url,
         data: $.param({
-          'page_timestamp': Math.floor(Date.now() / 1000),
+          'page_timestamp': category.timestamp,
           'page_no': category.page + 1
         }),
         headers: {
@@ -193,6 +203,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
         console.log('Warning: items not changed!');
         return;
       }
+      category.timestamp = getTimestamp(data);
       category.page += 1;
       $rootScope.$broadcast('scroll.refreshComplete');
       $scope.$broadcast('scroll.infiniteScrollComplete');
