@@ -86,6 +86,19 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     console.log('autoScrollTabBar: ' + tabLeft + ' + ' + tabWidth + ' / 2 - ' + scrollWidth + ' / 2 = ' + scrollTo);
   }
 
+  // Remove duplicated items
+  function removeDuplicates(items) {
+    var seen = {};
+    return items.filter(function(item) {
+      if (seen.hasOwnProperty(item.id)) {
+        console.log('Warning: removed duplicate: ' + JSON.stringify(item));
+        return false;
+      }
+      seen[item.id] = true;
+      return true;
+    });
+  }
+
   // Main model data for countries
   $scope.countries = [
     {name: 'イギリス', id: 'uk'},
@@ -126,23 +139,51 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   $scope.activeCountry = 0;     // select UK by default
   $scope.activeCategory = 0;    // select acm by default
 
-  // update items in active category of active country
-  $scope.updateItems = function() {
-    console.log('updateItems: ' + $scope.activeCategory);
+  // load and add items in the next page of active category of active country
+  $scope.loadItems = function() {
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
     var url = getUrl(country.id, category.id, 'list');
+    console.log('loadItems; page: ' + category.page + ', category:' + $scope.activeCategory);
 
-    $http.get(url).success(function(data) {
-      category.items = createItems(data);
+    var request = {
+      url: url,
+      headers: {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'ja-jp',
+        //'Origin': 'http://www.mixb.jp',
+        //'Host': 'www.mixb.jp',
+        //'Referer': url
+      }
+    };
+
+    if (category.page == 0) {
+      request.method = 'GET';
+    } else {
+      request.method = 'POST';
+      request.data = $.param({
+        'page_timestamp': Math.floor(Date.now() / 1000),
+        'page_no': category.page + 1
+      });
+      request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    }
+
+    $http(request).success(function(data) {
+      var newItems = createItems(data);
+      if (category.page == 0) {
+        category.items = newItems;
+      } else {
+        category.items = category.items.concat(newItems);
+      }
+      category.items = removeDuplicates(category.items);
+      category.page += 1;
       $ionicLoading.hide();
       $rootScope.$broadcast('scroll.refreshComplete');
-      $scope.$broadcast('scroll.infiniteScrollComplete'); 
-      category.page = 1;
+      $scope.$broadcast('scroll.infiniteScrollComplete');
     }).error(function() {handleError(url);});
   };
 
-  // TODO: merge with updateItems()
+  // TODO: merge with loadItems()
   $scope.searchItem = function() {
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
@@ -163,26 +204,6 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     }).error(function() {handleError(url);});
 
     category.query = '';
-  };
-
-  // TODO: merge with update and search items
-  $scope.loadMore = function() {
-    var country = $scope.countries[$scope.activeCountry];
-    var category = country.categories[$scope.activeCategory];
-    var url = getUrl(country.id, category.id, 'list');
-    console.log('loadMore: ' + category.page);
-    category.page += 1;
-
-    $http({
-          method: 'POST',
-          url: url,
-          data: $.param({'page_no': category.page}),
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    }).success(function(data) {
-      category.items = category.items.concat(createItems(data));
-      $ionicLoading.hide();
-      $scope.$broadcast('scroll.infiniteScrollComplete'); 
-    }).error(function() {handleError(url);});
   };
 
   // Open item detail modal view
@@ -254,6 +275,15 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     $scope.activeCategory = index;
     $scope.$broadcast('scroll.infiniteScrollComplete'); 
     autoScrollTabBar();
+  };
+
+  // Pull to request
+  $scope.onRefresh = function() {
+    console.log('onRefresh');
+    var country = $scope.countries[$scope.activeCountry];
+    var category = country.categories[$scope.activeCategory];
+    category.page = 0;
+    $scope.loadItems();
   };
 
   // Add modal view for item detail
