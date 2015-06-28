@@ -53,6 +53,11 @@
             <ion-slide ng-repeat="category in countries[activeCountry].categories">
 
               <form ng-submit="searchItem()" >
+                <label class="item item-input item-select"
+                        ng-repeat="attribute in category.attributes">
+                  <div class="input-label">{{attribute.label}}</div>
+                  <select ng-bind-html="attribute.html"></select>
+                </label>
                 <label class="item item-input">
                     <i class="icon ion-search placeholder-icon"></i>
                     <input ng-model="category.query" type="search" placeholder="検索"/>

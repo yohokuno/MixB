@@ -12,7 +12,7 @@ app.run(function($ionicPlatform) {
   });
 });
 
-app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
+app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
             $ionicModal, $ionicLoading,
             $ionicSideMenuDelegate, $ionicSlideBoxDelegate, $ionicScrollDelegate) {
   // helper function to show error message
@@ -74,6 +74,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
       category.query = '';
       category.page = 0;
       category.timestamp = 0;
+      category.attributes = [];
     });
   });
 
@@ -122,6 +123,19 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
         return;
       }
       category.timestamp = getTimestamp(data);
+
+      if (category.page == 0) {
+        var attributes = $(data).find('table > tbody > tr > td > table > tbody > tr > td > select');
+        category.attributes = attributes.map(function(i,e) {
+          var label = $(e).find(':first-child').text().replace('で検索', '');
+          $(e).find(':first-child').html('指定なし');
+          return {
+            id: e.name,
+            label: label,
+            html: $sce.trustAsHtml(e.innerHTML)
+          };
+        });
+      }
       category.page += 1;
       $rootScope.$broadcast('scroll.refreshComplete');
       $scope.$broadcast('scroll.infiniteScrollComplete');
