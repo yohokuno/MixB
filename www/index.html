@@ -63,7 +63,7 @@
             on-slide-changed="onSlideChanged($index)">
             <ion-slide ng-repeat="category in countries[activeCountry].categories">
 
-              <form ng-submit="searchItem()" ng-if="category.action=='search'">
+              <form ng-submit="searchItem()">
                 <label class="item item-input item-select"
                         ng-repeat="attribute in category.attributes">
                   <div class="input-label">{{attribute.label}}</div>
