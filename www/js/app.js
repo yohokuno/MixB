@@ -129,6 +129,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
       category.items = removeDuplicates(category.items);
       if (category.items.length == oldLength) {
         console.log('Warning: items not changed!');
+        handleError(url);
         return;
       }
       category.timestamp = getTimestamp(data);
@@ -269,6 +270,8 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
     category.action = 'list';
+    category.page = 0;
+    $scope.loadItems();
   }
 });
 
