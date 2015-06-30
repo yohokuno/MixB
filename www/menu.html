@@ -1,0 +1,13 @@
+<ion-header-bar>
+    <h1 class="title">国を選ぶ</h1>
+</ion-header-bar>
+
+<ion-content>
+    <ion-list>
+        <ion-item ng-repeat="country in countries"
+                  ng-click="selectCountry($index)"
+                  ng-class="{active: activeCountry == $index}">
+            {{country.name}}
+        </ion-item>
+    </ion-list>
+</ion-content>

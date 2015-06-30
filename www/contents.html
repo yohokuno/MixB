@@ -1,0 +1,73 @@
+<div ng-include="'myUsers_List.htm'"></div>
+<ion-header-bar class="bar-dark" no-tap-scroll="true">
+    <button class="button button-icon" ng-click="toggleCountries()">
+        <i class="icon ion-navicon"></i>
+    </button>
+
+    <h1 class="title">MixB {{countries[activeCountry].name}}</h1>
+
+    <button class="button button-icon" ng-click="onSearchClicked()"
+            ng-if="countries[activeCountry].categories[activeCategory].action=='list'">
+        <i class="icon ion-search"></i>
+    </button>
+
+    <button class="button button-clear" ng-click="onCancelClicked()"
+            ng-if="countries[activeCountry].categories[activeCategory].action=='search'">
+        キャンセル
+    </button>
+</ion-header-bar>
+
+<ion-header-bar class="bar-subheader">
+    <ion-scroll direction="x" scrollbar-x="false" scrollbar-y="false"
+                class="wide-as-needed" delegate-handle="tab-bar">
+        <button class="button button-tab"
+                ng-repeat="category in countries[activeCountry].categories"
+                ng-class="category.id + ((activeCategory == $index) ? ' active'  : '')"
+                ng-click="onTabSelected($index)">{{category.name}}</button>
+    </ion-scroll>
+</ion-header-bar>
+
+<ion-content has-header="true" delegate-handle="main">
+    <ion-refresher
+            on-refresh="onRefresh()">
+    </ion-refresher>
+
+    <ion-slide-box show-pager="false"
+                   on-slide-changed="onSlideChanged($index)">
+        <ion-slide ng-repeat="category in countries[activeCountry].categories">
+
+            <form ng-submit="searchItem()">
+                <label class="item item-input item-select"
+                       ng-repeat="attribute in category.attributes">
+                    <div class="input-label">{{attribute.label}}</div>
+                    <select ng-bind-html="attribute.html"></select>
+                </label>
+                <label class="item item-input">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input ng-model="category.query" type="search" placeholder="検索"/>
+                </label>
+            </form>
+
+            <ion-list ng-if="activeCategory === $index">
+                <ion-item style="padding:10px"
+                          ng-repeat="item in category.items track by $index"
+                          ng-click="openItemDetail(item)">
+                    <p>
+                    <span style="padding:2px"
+                          ng-repeat="header in item.headers track by $index">
+                      {{header}}
+                    </span>
+                    </p>
+                    <h2>{{item.title}}</h2>
+                </ion-item>
+            </ion-list>
+        </ion-slide>
+    </ion-slide-box>
+
+    <ion-infinite-scroll
+            on-infinite="loadItems()"
+            immediate-check="true"
+            distance="10%">
+    </ion-infinite-scroll>
+
+</ion-content>
