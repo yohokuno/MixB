@@ -114,11 +114,6 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
         category.items = category.items.concat(newItems);
       }
       category.items = removeDuplicates(category.items);
-      if (category.items.length == oldLength) {
-        console.log('Warning: items not changed!');
-        handleError(url);
-        return;
-      }
       category.timestamp = getTimestamp(data);
 
       if (category.page == 0) {
