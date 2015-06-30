@@ -7,12 +7,12 @@
     <h1 class="title">MixB {{countries[activeCountry].name}}</h1>
 
     <button class="button button-icon" ng-click="onSearchClicked()"
-            ng-if="countries[activeCountry].categories[activeCategory].action=='list'">
+            ng-show="countries[activeCountry].categories[activeCategory].action=='list'">
         <i class="icon ion-search"></i>
     </button>
 
     <button class="button button-clear" ng-click="onCancelClicked()"
-            ng-if="countries[activeCountry].categories[activeCategory].action=='search'">
+            ng-show="countries[activeCountry].categories[activeCategory].action=='search'">
         キャンセル
     </button>
 </ion-header-bar>
@@ -48,7 +48,7 @@
                 </label>
             </form>
 
-            <ion-list ng-if="activeCategory === $index">
+            <ion-list ng-show="activeCategory === $index">
                 <ion-item style="padding:10px"
                           ng-repeat="item in category.items track by $index"
                           ng-click="openItemDetail(item)">
