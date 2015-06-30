@@ -1,4 +1,3 @@
-'use strict';
 var app = angular.module('MixB', ['ionic']);
 
 app.run(function($ionicPlatform) {
