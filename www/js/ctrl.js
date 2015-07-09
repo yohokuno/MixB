@@ -2,22 +2,7 @@
 app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
                                     $ionicModal, $ionicLoading,
                                     $ionicSideMenuDelegate, $ionicSlideBoxDelegate, $ionicScrollDelegate,
-                                    handleError) {
-
-  // Auto scroll tab bar so active tab come to center
-  function autoScrollTabBar() {
-    var tab = $('button.button-tab:nth-child(' + ($scope.activeCategory + 1) + ')');
-    var tabWidth = tab.width();
-    var tabLeft = ionic.DomUtil.getPositionInParent(tab[0]).left;
-    var scrollWidth = $('ion-header-bar.bar-subheader').width();
-    var scrollTo = tabLeft + tabWidth / 2 - scrollWidth / 2;
-    // TODO: limit maximum of scrollTo
-    scrollTo = Math.max(scrollTo, 0);
-
-    var scroll = $ionicScrollDelegate.$getByHandle('tab-bar');
-    scroll.scrollTo(scrollTo, 0, true);
-    console.log('autoScrollTabBar: ' + tabLeft + ' + ' + tabWidth + ' / 2 - ' + scrollWidth + ' / 2 = ' + scrollTo);
-  }
+                                    service) {
 
   // Main model data for countries
   $scope.countries = [
@@ -123,7 +108,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
       category.page += 1;
       $rootScope.$broadcast('scroll.refreshComplete');
       $scope.$broadcast('scroll.infiniteScrollComplete');
-    }).error(function() {handleError(url);});
+    }).error(function() {service.handleError(url);});
   };
 
   // TODO: merge with loadItems()
@@ -147,7 +132,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
       category.items = createItems(data);
       $ionicLoading.hide();
       $scope.$broadcast('scroll.infiniteScrollComplete');
-    }).error(function() {handleError(url);});
+    }).error(function() {service.handleError(url);});
 
     category.query = '';
   };
@@ -178,7 +163,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
       $ionicLoading.hide();
       $scope.$broadcast('scroll.infiniteScrollComplete');
 
-    }).error(function() {handleError(url);});
+    }).error(function() {service.handleError(url);});
   };
 
   // Pressed back button on item detail view
@@ -211,7 +196,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
     $timeout( function() {
       scroll.resize();
     }, 50);
-    autoScrollTabBar();
+    service.autoScrollTabBar($scope.activeCategory);
   };
 
   // Tab selected
@@ -220,7 +205,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
     $ionicSlideBoxDelegate.slide(index);
     $scope.activeCategory = index;
     $scope.$broadcast('scroll.infiniteScrollComplete');
-    autoScrollTabBar();
+    service.autoScrollTabBar($scope.activeCategory);
   };
 
   // Pull to request
