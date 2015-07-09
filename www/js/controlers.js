@@ -1,7 +1,7 @@
 
 app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
                                     $ionicModal, $ionicLoading,
-                                    $ionicSideMenuDelegate, $ionicSlideBoxDelegate, $ionicScrollDelegate,
+                                    $ionicSideMenuDelegate, $ionicSlideBoxDelegate,
                                     service) {
 
   // Main model data for countries
@@ -190,12 +190,6 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
   $scope.onSlideChanged = function(index) {
     console.log('onSlideChanged: ' + index);
     $scope.activeCategory = index;
-    var scroll = $ionicScrollDelegate.$getByHandle('main');
-    scroll.scrollTop();
-    $scope.$broadcast('scroll.infiniteScrollComplete');
-    $timeout( function() {
-      scroll.resize();
-    }, 50);
     service.autoScrollTabBar($scope.activeCategory);
   };
 
@@ -204,7 +198,6 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
     console.log('onTabSelected: ' + index);
     $ionicSlideBoxDelegate.slide(index);
     $scope.activeCategory = index;
-    $scope.$broadcast('scroll.infiniteScrollComplete');
     service.autoScrollTabBar($scope.activeCategory);
   };
 

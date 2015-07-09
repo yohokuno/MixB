@@ -1,4 +1,4 @@
-app.factory('service', function($ionicLoading, $ionicScrollDelegate) {
+app.factory('service', function($ionicLoading, $ionicScrollDelegate, $timeout, $rootScope) {
   return {
     handleError : function(url) {
       $ionicLoading.show({
@@ -20,6 +20,15 @@ app.factory('service', function($ionicLoading, $ionicScrollDelegate) {
         var scroll = $ionicScrollDelegate.$getByHandle('tab-bar');
         scroll.scrollTo(scrollTo, 0, true);
         console.log('autoScrollTabBar: ' + tabLeft + ' + ' + tabWidth + ' / 2 - ' + scrollWidth + ' / 2 = ' + scrollTo);
+
+        // scroll item list to top
+        var scroll = $ionicScrollDelegate.$getByHandle('main');
+        scroll.scrollTop();
+        $timeout( function() {
+          scroll.resize();
+        }, 50);
+
+        $rootScope.$broadcast('scroll.infiniteScrollComplete');
       }
   };
 });
