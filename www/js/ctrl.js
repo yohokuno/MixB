@@ -1,15 +1,8 @@
 
 app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
                                     $ionicModal, $ionicLoading,
-                                    $ionicSideMenuDelegate, $ionicSlideBoxDelegate, $ionicScrollDelegate) {
-  // helper function to show error message
-  function handleError(url) {
-    $ionicLoading.show({
-      template: '読み込めませんでした：' + url,
-      noBackdrop: true,
-      duration: 2000
-    });
-  }
+                                    $ionicSideMenuDelegate, $ionicSlideBoxDelegate, $ionicScrollDelegate,
+                                    handleError) {
 
   // Auto scroll tab bar so active tab come to center
   function autoScrollTabBar() {
@@ -106,7 +99,6 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
     console.log('Request: ' + JSON.stringify(request, null, 2));
 
     $http(request).success(function(data) {
-      var oldLength = category.items.length;
       var newItems = createItems(data);
       if (category.page == 0) {
         category.items = newItems;
@@ -245,7 +237,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
     category.action = 'search';
-  }
+  };
 
   $scope.onCancelClicked = function() {
     console.log('onCancelClicked');
