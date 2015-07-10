@@ -1,4 +1,4 @@
-app.factory('service', function($ionicLoading, $ionicScrollDelegate, $timeout, $rootScope, $sce) {
+app.factory('service', function($ionicLoading, $ionicScrollDelegate, $timeout, $rootScope) {
   return {
     // Handle error
     handleError : function(url) {
@@ -18,31 +18,18 @@ app.factory('service', function($ionicLoading, $ionicScrollDelegate, $timeout, $
       // TODO: limit maximum of scrollTo
       scrollTo = Math.max(scrollTo, 0);
 
-      var scroll = $ionicScrollDelegate.$getByHandle('tab-bar');
-      scroll.scrollTo(scrollTo, 0, true);
+      var tabBarScroll  = $ionicScrollDelegate.$getByHandle('tab-bar');
+      tabBarScroll.scrollTo(scrollTo, 0, true);
       console.log('autoScrollTabBar: ' + tabLeft + ' + ' + tabWidth + ' / 2 - ' + scrollWidth + ' / 2 = ' + scrollTo);
 
       // scroll item list to top
-      var scroll = $ionicScrollDelegate.$getByHandle('main');
-      scroll.scrollTop();
+      var itemListScroll = $ionicScrollDelegate.$getByHandle('main');
+      itemListScroll.scrollTop();
       $timeout( function() {
         scroll.resize();
       }, 50);
 
       $rootScope.$broadcast('scroll.infiniteScrollComplete');
-    },
-    // Get search attributes
-    getAttributes : function (data) {
-      var attributes = $(data).find('table > tbody > tr > td > table > tbody > tr > td > select');
-      return attributes.map(function (i, e) {
-        var label = $(e).find(':first-child').text().replace('で検索', '');
-        $(e).find(':first-child').html('指定なし');
-        return {
-          id: e.name,
-          label: label,
-          html: $sce.trustAsHtml(e.innerHTML)
-        };
-      });
     }
   };
 });

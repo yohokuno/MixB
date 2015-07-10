@@ -77,6 +77,20 @@ function removeDuplicates(items) {
   });
 }
 
+// Get search attributes
+function getAttributes(data) {
+  var attributes = $(data).find('table > tbody > tr > td > table > tbody > tr > td > select');
+  return attributes.map(function (i, e) {
+    var label = $(e).find(':first-child').text().replace('で検索', '');
+    $(e).find(':first-child').html('指定なし');
+    return {
+      id: e.name,
+      label: label,
+      html: e.innerHTML
+    };
+  });
+}
+
 // Get request for page loading
 // TODO: support search and item detail request
 function getRequest(url, page, timestamp) {

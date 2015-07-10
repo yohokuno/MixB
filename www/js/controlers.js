@@ -38,7 +38,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
       category.timestamp = getTimestamp(data);
 
       if (category.page == 0) {
-        category.attributes = service.getAttributes(data);
+        category.attributes = getAttributes(data);
       }
       category.page += 1;
       $rootScope.$broadcast('scroll.refreshComplete');
