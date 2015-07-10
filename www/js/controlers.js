@@ -1,5 +1,5 @@
 
-app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
+app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
                                     $ionicModal, $ionicLoading,
                                     $ionicSideMenuDelegate, $ionicSlideBoxDelegate,
                                     service) {
@@ -94,16 +94,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout, $sce,
       category.timestamp = getTimestamp(data);
 
       if (category.page == 0) {
-        var attributes = $(data).find('table > tbody > tr > td > table > tbody > tr > td > select');
-        category.attributes = attributes.map(function(i,e) {
-          var label = $(e).find(':first-child').text().replace('で検索', '');
-          $(e).find(':first-child').html('指定なし');
-          return {
-            id: e.name,
-            label: label,
-            html: $sce.trustAsHtml(e.innerHTML)
-          };
-        });
+        category.attributes = service.getAttributes(data);
       }
       category.page += 1;
       $rootScope.$broadcast('scroll.refreshComplete');
