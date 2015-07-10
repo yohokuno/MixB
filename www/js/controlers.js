@@ -46,7 +46,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     }).error(function() {
       $ionicLoading.show(getError(url));
     });
-  };
+  }();
 
   // TODO: merge with loadItems()
   // TODO: support attributes
