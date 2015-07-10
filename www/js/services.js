@@ -1,13 +1,5 @@
-app.factory('service', function($ionicLoading, $ionicScrollDelegate, $timeout, $rootScope) {
+app.factory('service', function($ionicScrollDelegate, $timeout, $rootScope) {
   return {
-    // Handle error
-    handleError : function(url) {
-      $ionicLoading.show({
-        template: '読み込めませんでした：' + url,
-        noBackdrop: true,
-        duration: 2000
-      })
-    },
     // Auto scroll tab bar so active tab come to center
     autoScrollTabBar : function (activeCategory) {
       var tab = $('button.button-tab:nth-child(' + (activeCategory + 1) + ')');
@@ -26,7 +18,7 @@ app.factory('service', function($ionicLoading, $ionicScrollDelegate, $timeout, $
       var itemListScroll = $ionicScrollDelegate.$getByHandle('main');
       itemListScroll.scrollTop();
       $timeout( function() {
-        scroll.resize();
+        itemListScroll.resize();
       }, 50);
 
       $rootScope.$broadcast('scroll.infiniteScrollComplete');

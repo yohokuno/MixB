@@ -43,7 +43,9 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
       category.page += 1;
       $rootScope.$broadcast('scroll.refreshComplete');
       $scope.$broadcast('scroll.infiniteScrollComplete');
-    }).error(function() {service.handleError(url);});
+    }).error(function() {
+      $ionicLoading.show(getError(url));
+    });
   };
 
   // TODO: merge with loadItems()
@@ -69,7 +71,9 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
       category.items = createItems(data);
       $ionicLoading.hide();
       $scope.$broadcast('scroll.infiniteScrollComplete');
-    }).error(function() {service.handleError(url);});
+    }).error(function() {
+      $ionicLoading.show(getError(url));
+    });
 
     category.query = '';
   };
@@ -91,7 +95,9 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
       $ionicLoading.hide();
       $scope.$broadcast('scroll.infiniteScrollComplete');
 
-    }).error(function() {service.handleError(url);});
+    }).error(function() {
+      $ionicLoading.show(getError(url));
+    });
   };
 
   // Pressed back button on item detail view

@@ -1,3 +1,12 @@
+// get error to be used in $ionicLoading.show(error)
+function getError(url) {
+  return {
+    template: '読み込めませんでした：' + url,
+    noBackdrop: true,
+    duration: 2000
+  };
+}
+
 // construct MixB's URL
 function getUrl(country, category, action, id) {
   var suffix = category + '/';
