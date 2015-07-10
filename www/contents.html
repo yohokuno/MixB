@@ -39,7 +39,7 @@
                 <label class="item item-input item-select"
                        ng-repeat="attribute in category.attributes">
                     <div class="input-label">{{attribute.label}}</div>
-                    <select>
+                    <select ng-model="attribute.selected">
                         <option ng-repeat="option in attribute.options" value="{{option.value}}">{{option.text}}</option>
                     </select>
                 </label>

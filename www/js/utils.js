@@ -97,7 +97,7 @@ function getAttributes(data) {
       label: label,
       options: $(e).children().map(function(i,e) {
         return {
-          text: e.innerHTML,
+          text: e.text,
           value: e.value
         };
       })

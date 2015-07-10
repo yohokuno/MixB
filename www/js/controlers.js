@@ -58,11 +58,18 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
 
     $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
 
+    var params = {
+      'sc_word': category.query
+    };
+    $.each(category.attributes, function(i, attribute) {
+      console.log('attribute' + attribute);
+      params[attribute.id] = attribute.selected;
+    });
     // TODO: use getRequest() function
     var request = {
       method: 'POST',
       url: url,
-      data: $.param({'sc_word': category.query}),
+      data: $.param(params),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     };
     console.log('Request: ' + JSON.stringify(request, null, 2));
