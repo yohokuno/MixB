@@ -39,7 +39,9 @@
                 <label class="item item-input item-select"
                        ng-repeat="attribute in category.attributes">
                     <div class="input-label">{{attribute.label}}</div>
-                    <select ng-bind-html="attribute.html"></select>
+                    <select>
+                        <option ng-repeat="option in attribute.options">{{option.text}}</option>
+                    </select>
                 </label>
                 <label class="item item-input">
                     <i class="icon ion-search placeholder-icon"></i>

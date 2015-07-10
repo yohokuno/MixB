@@ -95,7 +95,12 @@ function getAttributes(data) {
     return {
       id: e.name,
       label: label,
-      html: e.innerHTML
+      options: $(e).children().map(function(i,e) {
+        return {
+          text: e.innerHTML,
+          value: e.value
+        };
+      })
     };
   });
 }
