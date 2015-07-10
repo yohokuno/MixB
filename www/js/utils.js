@@ -76,3 +76,45 @@ function removeDuplicates(items) {
     return true;
   });
 }
+
+// Get request for page loading
+// TODO: support search and item detail request
+function getRequest(url, page, timestamp) {
+  var request = {
+    url: url,
+    headers: {
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      'Accept-Language': 'ja-jp',
+      'Cache-Control': 'max-age=0'
+    }
+  };
+
+  if (page == 0) {
+    request.method = 'GET';
+  } else {
+    request.method = 'POST';
+    request.data = $.param({
+      'page_timestamp': timestamp,
+      'page_no': page + 1
+    });
+    request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+  }
+  return request;
+}
+
+// Extract item detail
+function getItemDetail(data, dirname) {
+  var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
+  // replace image path to absolute url
+  contents.find('img').each(function() {
+    var src = $(this).attr('src');
+    $(this).attr('src', dirname + src);
+  });
+  var body = contents.find('tr:eq(2)');
+  return {
+    title : contents.find('tr:eq(0)').text(),
+    metadata : contents.find('tr:eq(1)').html(),
+    content : body.find('div:eq(0)').html(),
+    photo : body.find('div:eq(1)').html()
+  };
+}

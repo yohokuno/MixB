@@ -21,28 +21,10 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   $scope.loadItems = function() {
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
-    var url = getUrl(country.id, category.id, 'list');
     console.log('loadItems; page: ' + category.page + ', category:' + $scope.activeCategory);
 
-    var request = {
-      url: url,
-      headers: {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'ja-jp',
-        'Cache-Control': 'max-age=0'
-      }
-    };
-
-    if (category.page == 0) {
-      request.method = 'GET';
-    } else {
-      request.method = 'POST';
-      request.data = $.param({
-        'page_timestamp': category.timestamp,
-        'page_no': category.page + 1
-      });
-      request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    }
+    var url = getUrl(country.id, category.id, 'list');
+    var request = getRequest(url, category.page, category.timestamp);
     console.log('Request: ' + JSON.stringify(request, null, 2));
 
     $http(request).success(function(data) {
@@ -74,6 +56,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
 
     $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
 
+    // TODO: use getRequest() function
     var request = {
       method: 'POST',
       url: url,
@@ -102,17 +85,8 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
 
     $http.get(url).success(function(data) {
-      var contents = $(data).find('table > tbody > tr > td > table > tbody > tr > td > table');
-      // replace image path to absolute url
-      contents.find('img').each(function() {
-        var src = $(this).attr('src');
-        $(this).attr('src', dirname + src);
-      });
-      $scope.title = contents.find('tr:eq(0)').text();
-      $scope.metadata = contents.find('tr:eq(1)').html();
-      var body = contents.find('tr:eq(2)');
-      $scope.content = body.find('div:eq(0)').html();
-      $scope.photo = body.find('div:eq(1)').html();
+      // TODO: extract getItemDetail to separate function
+      $scope.itemDetail = getItemDetail(data, dirname);
       $scope.modal.show();
       $ionicLoading.hide();
       $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -164,6 +138,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     $scope.loadItems();
   };
 
+  // Search button on header bar clicked
   $scope.onSearchClicked = function() {
     console.log('onSearchClicked');
     var country = $scope.countries[$scope.activeCountry];
@@ -171,6 +146,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     category.action = 'search';
   };
 
+  // Cancel button on header bar clicked
   $scope.onCancelClicked = function() {
     console.log('onCancelClicked');
     var country = $scope.countries[$scope.activeCountry];

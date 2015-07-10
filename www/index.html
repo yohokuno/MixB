@@ -44,10 +44,10 @@
             ng-click="closeItemDetail()">戻る</a>
         </ion-header-bar>
         <ion-content>
-          <h3>{{title}}</h3>
-          <p ng-bind-html="metadata"></p>
-          <p ng-bind-html="content"></p>
-          <p ng-bind-html="photo"></p>
+          <h3>{{itemDetail.title}}</h3>
+          <p ng-bind-html="itemDetail.metadata"></p>
+          <p ng-bind-html="itemDetail.content"></p>
+          <p ng-bind-html="itemDetail.photo"></p>
         </ion-content>
       </ion-modal-view>
     </script>
