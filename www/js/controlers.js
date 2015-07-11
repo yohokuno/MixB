@@ -83,6 +83,9 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     });
 
     category.query = '';
+    if(window.cordova && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.close();
+    }
   };
 
   // Open item detail modal view
