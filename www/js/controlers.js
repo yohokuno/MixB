@@ -8,6 +8,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   $scope.countries = initialCountries;
   $scope.activeCountry = 0;     // select UK by default
   $scope.activeCategory = 0;    // select acm by default
+  $scope.showSearch = false;    // hide search tools by default
 
   // Add modal view for item detail
   $ionicModal.fromTemplateUrl('item-detail.html', {
@@ -43,10 +44,11 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
       category.page += 1;
       $rootScope.$broadcast('scroll.refreshComplete');
       $scope.$broadcast('scroll.infiniteScrollComplete');
+      $ionicLoading.hide();
     }).error(function() {
       $ionicLoading.show(getError(url));
     });
-  }();
+  };
 
   // TODO: merge with loadItems()
   // TODO: support attributes
@@ -159,16 +161,13 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     console.log('onSearchClicked');
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
-    category.action = 'search';
+    if ($scope.showSearch) {
+      $scope.showSearch = false;
+      category.page = 0;
+      $scope.loadItems();
+      $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
+    } else {
+      $scope.showSearch = true;
+    }
   };
-
-  // Cancel button on header bar clicked
-  $scope.onCancelClicked = function() {
-    console.log('onCancelClicked');
-    var country = $scope.countries[$scope.activeCountry];
-    var category = country.categories[$scope.activeCategory];
-    category.action = 'list';
-    category.page = 0;
-    $scope.loadItems();
-  }
 });

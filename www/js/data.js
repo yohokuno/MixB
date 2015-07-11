@@ -36,6 +36,5 @@ $.each(initialCountries, function(i, country) {
     category.page = 0;
     category.timestamp = 0;
     category.attributes = [];
-    category.action = 'list';
   });
 });

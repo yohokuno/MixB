@@ -4,17 +4,9 @@
     </button>
 
     <h1 class="title">MixB {{countries[activeCountry].name}}</h1>
-<!--
-    <button class="button button-icon" ng-click="onSearchClicked()"
-            ng-show="countries[activeCountry].categories[activeCategory].action=='list'">
-        <i class="icon ion-search"></i>
+    <button class="button button-icon" ng-click="onSearchClicked()">
+        <i class="icon" ng-class="showSearch ? 'ion-android-cancel' : 'ion-search'"></i>
     </button>
-
-    <button class="button button-clear" ng-click="onCancelClicked()"
-            ng-show="countries[activeCountry].categories[activeCategory].action=='search'">
-        キャンセル
-    </button>
-    -->
 </ion-header-bar>
 
 <ion-header-bar class="bar-subheader">
@@ -36,7 +28,7 @@
                    on-slide-changed="onSlideChanged($index)">
         <ion-slide ng-repeat="category in countries[activeCountry].categories">
 
-            <form ng-submit="searchItem()">
+            <form ng-submit="searchItem()" ng-show="showSearch">
                 <label class="item item-input item-select"
                        ng-repeat="attribute in category.attributes">
                     <div class="input-label">{{attribute.label}}</div>
