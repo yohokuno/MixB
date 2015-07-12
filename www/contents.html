@@ -15,7 +15,7 @@
         <button class="button button-tab"
                 ng-repeat="category in countries[activeCountry].categories"
                 ng-class="category.id + ((activeCategory == $index) ? ' active'  : '')"
-                ng-click="onTabSelected($index)">{{category.name}}</button>
+                ng-click="onCategoryChanged($index)">{{category.name}}</button>
     </ion-scroll>
 </ion-header-bar>
 
@@ -25,7 +25,7 @@
     </ion-refresher>
 
     <ion-slide-box show-pager="false"
-                   on-slide-changed="onSlideChanged($index)">
+                   on-slide-changed="onCategoryChanged($index)">
         <ion-slide ng-repeat="category in countries[activeCountry].categories">
 
             <form ng-submit="searchItem()" ng-show="showSearch">
@@ -42,7 +42,7 @@
                 </label>
             </form>
 
-            <ion-list ng-show="activeCategory === $index">
+            <ion-list>
                 <ion-item style="padding:10px"
                           ng-repeat="item in category.items track by $index"
                           ng-click="openItemDetail(item)">

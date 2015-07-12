@@ -132,19 +132,19 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     $ionicSideMenuDelegate.toggleLeft();
   };
 
-  // Slide changed by swiping slide
-  $scope.onSlideChanged = function(index) {
-    console.log('onSlideChanged: ' + index);
-    $scope.activeCategory = index;
-    service.autoScrollTabBar($scope.activeCategory);
-  };
 
-  // Tab selected
-  $scope.onTabSelected = function(index) {
-    console.log('onTabSelected: ' + index);
+  // Category changed
+  $scope.onCategoryChanged = function(index) {
+    console.log('onCategoryChanged: ' + index);
+    var country = $scope.countries[$scope.activeCountry];
+    var category = country.categories[$scope.activeCategory];
     $ionicSlideBoxDelegate.slide(index);
     $scope.activeCategory = index;
     service.autoScrollTabBar($scope.activeCategory);
+    category.page = 0;
+    $scope.loadItems();
+    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
+
   };
 
   // Pull to request
