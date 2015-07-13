@@ -121,8 +121,8 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   $scope.selectCountry = function(index) {
     console.log('selectCountry: ' + index);
     $scope.activeCountry = index;
-    $ionicSideMenuDelegate.toggleLeft(false);
     $scope.activeCategory = 0;
+    $ionicSideMenuDelegate.toggleLeft(false);
   };
 
   // Show/hide side menu
@@ -131,10 +131,10 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     $ionicSideMenuDelegate.toggleLeft();
   };
 
-
   // Category changed by swiping on slide box or clicking tab
   $scope.onCategoryChanged = function(index) {
     console.log('onCategoryChanged: ' + index);
+    // TODO: extract this to getActiveCategory() or flatten data structure
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
     $scope.activeCategory = index;
@@ -160,14 +160,17 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   $scope.onRefresh = function(index) {
     console.log('onRefresh: ' + index);
     if (index == $scope.activeCategory) {
+      // TODO: extract this to getActiveCategory() or flatten data structure
       var country = $scope.countries[$scope.activeCountry];
       var category = country.categories[$scope.activeCategory];
       category.page = 0;
       $scope.loadItems();
+      // we don't need to empty the items list because loadItems does it when new items are ready
     }
   };
 
-  // Infinite scroll
+  // Vertical scroll reached the end so load more data
+  // Note: this can be called on first page when the items list is empty
   $scope.onInfinite = function(index) {
     //console.log('onInfinite: ' + index);
     if (index == $scope.activeCategory) {
@@ -179,12 +182,14 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   // Search button on header bar clicked
   $scope.onSearchClicked = function() {
     console.log('onSearchClicked');
+    // TODO: extract this to getActiveCategory() or flatten data structure
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
     if ($scope.showSearch) {
       $scope.showSearch = false;
       category.page = 0;
-      // TODO: do not reload items if no search is conducted
+      // When back from search to list, update items
+      // TODO: keep items for non-search list
       $scope.loadItems();
     } else {
       $scope.showSearch = true;
