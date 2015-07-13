@@ -125,6 +125,8 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     $scope.activeCountry = index;
     $scope.activeCategory = 0;
     initCategories($scope.categories);
+    // It seems like infinite scroll does not work when side menu is toggled
+    $scope.loadItems();
     $ionicSideMenuDelegate.toggleLeft(false);
   };
 
