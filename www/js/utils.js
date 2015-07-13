@@ -147,12 +147,13 @@ function getItemDetail(data, dirname) {
   };
 }
 
+// Initialize contents of categories
 function initCategories(categories) {
   $.each(categories, function (i, category) {
     category.items = [];
-    category.query = '';
     category.page = 0;
-    category.timestamp = 0;
     category.attributes = [];
+    category.query = '';
+    category.timestamp = 0;
   });
 }
