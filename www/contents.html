@@ -15,7 +15,7 @@
         <button class="button button-tab"
                 ng-repeat="category in countries[activeCountry].categories"
                 ng-class="category.id + ((activeCategory == $index) ? ' active'  : '')"
-                ng-click="onCategoryChanged($index)">{{category.name}}</button>
+                ng-click="onTabClicked($index)">{{category.name}}</button>
     </ion-scroll>
 </ion-header-bar>
 

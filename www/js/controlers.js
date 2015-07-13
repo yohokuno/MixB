@@ -133,12 +133,11 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   };
 
 
-  // Category changed
+  // Category changed by swiping on slide box or clicking tab
   $scope.onCategoryChanged = function(index) {
     console.log('onCategoryChanged: ' + index);
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
-    $ionicSlideBoxDelegate.slide(index);
     $scope.activeCategory = index;
     service.autoScrollTabBar($scope.activeCategory);
     $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
@@ -146,6 +145,13 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     category.page = 0;
     $scope.loadItems();
   };
+
+  // Category tab clicked
+  $scope.onTabClicked = function(index) {
+    console.log('onTabClicked: ' + index);
+    // This triggers onCategoryChanged automatically
+    $ionicSlideBoxDelegate.slide(index);
+  }
 
   // Pull to request
   $scope.onRefresh = function() {
