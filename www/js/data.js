@@ -38,3 +38,5 @@ $.each(initialCountries, function(i, country) {
     category.attributes = [];
   });
 });
+
+var loadingTemplate = {template: '<ion-spinner></ion-spinner>', noBackdrop: true};

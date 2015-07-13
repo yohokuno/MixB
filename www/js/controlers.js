@@ -51,14 +51,13 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   };
 
   // TODO: merge with loadItems()
-  // TODO: support attributes
   $scope.searchItem = function() {
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
     var url = getUrl(country.id, category.id, 'search');
     console.log('searchItem: ' + category.query);
 
-    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
+    $ionicLoading.show(loadingTemplate);
 
     var params = {
       'sc_word': category.query
@@ -98,7 +97,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     var dirname = getUrl(country.id, category.id);
     var url = getUrl(country.id, category.id, 'detail', item.id);
 
-    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
+    $ionicLoading.show(loadingTemplate);
 
     $http.get(url).success(function(data) {
       // TODO: extract getItemDetail to separate function
@@ -185,8 +184,8 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     if ($scope.showSearch) {
       $scope.showSearch = false;
       category.page = 0;
+      // TODO: do not reload items if no search is conducted
       $scope.loadItems();
-      $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
     } else {
       $scope.showSearch = true;
     }
