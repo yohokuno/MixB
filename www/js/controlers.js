@@ -183,8 +183,8 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   };
 
   // Search button on header bar clicked
-  $scope.onSearchClicked = function() {
-    console.log('onSearchClicked');
+  $scope.toggleSearch = function() {
+    console.log('toggleSearch');
     $scope.showSearch = !$scope.showSearch;
   };
 });
