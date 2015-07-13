@@ -19,49 +19,46 @@
     </ion-scroll>
 </ion-header-bar>
 
-<ion-content has-header="true" delegate-handle="main">
-    <ion-refresher
-            on-refresh="onRefresh()">
-    </ion-refresher>
-
+<ion-content has-header="true" scroll="false">
     <ion-slide-box show-pager="false"
                    on-slide-changed="onCategoryChanged($index)">
         <ion-slide ng-repeat="category in countries[activeCountry].categories">
+            <ion-content direction="y" delegate-handle="main">
+                <ion-refresher on-refresh="onRefresh($index)"></ion-refresher>
 
-            <form ng-submit="searchItem()" ng-show="showSearch">
-                <label class="item item-input item-select"
-                       ng-repeat="attribute in category.attributes">
-                    <div class="input-label">{{attribute.label}}</div>
-                    <select ng-model="attribute.selected">
-                        <option ng-repeat="option in attribute.options" value="{{option.value}}" ng-selected="$index==0">{{option.text}}</option>
-                    </select>
-                </label>
-                <label class="item item-input">
-                    <input ng-model="category.query" type="search" placeholder="キーワード"/>
-                    <button class="button icon-right ion-search" type="submit">検索</button>
-                </label>
-            </form>
+                <form ng-submit="searchItem()" ng-show="showSearch">
+                    <label class="item item-input item-select"
+                           ng-repeat="attribute in category.attributes">
+                        <div class="input-label">{{attribute.label}}</div>
+                        <select ng-model="attribute.selected">
+                            <option ng-repeat="option in attribute.options" value="{{option.value}}" ng-selected="$index==0">{{option.text}}</option>
+                        </select>
+                    </label>
+                    <label class="item item-input">
+                        <input ng-model="category.query" type="search" placeholder="キーワード"/>
+                        <button class="button icon-right ion-search" type="submit">検索</button>
+                    </label>
+                </form>
 
-            <ion-list>
-                <ion-item style="padding:10px"
-                          ng-repeat="item in category.items track by $index"
-                          ng-click="openItemDetail(item)">
-                    <p>
-                    <span style="padding:2px"
-                          ng-repeat="header in item.headers track by $index">
-                      {{header}}
-                    </span>
-                    </p>
-                    <h2>{{item.title}}</h2>
-                </ion-item>
-            </ion-list>
+                <ion-list>
+                    <ion-item style="padding:10px"
+                              ng-repeat="item in category.items track by $index"
+                              ng-click="openItemDetail(item)">
+                        <p>
+                        <span style="padding:2px"
+                              ng-repeat="header in item.headers track by $index">
+                          {{header}}
+                        </span>
+                        </p>
+                        <h2>{{item.title}}</h2>
+                    </ion-item>
+                </ion-list>
+                <ion-infinite-scroll
+                        on-infinite="onInfinite($index)"
+                        immediate-check="true"
+                        distance="10%">
+                </ion-infinite-scroll>
+            </ion-content>
         </ion-slide>
     </ion-slide-box>
-
-    <ion-infinite-scroll
-            on-infinite="loadItems()"
-            immediate-check="true"
-            distance="10%">
-    </ion-infinite-scroll>
-
 </ion-content>

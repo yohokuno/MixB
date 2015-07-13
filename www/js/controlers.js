@@ -141,16 +141,15 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     $scope.activeCategory = index;
     scrollService.autoScrollTabBar($scope.activeCategory);
     scrollService.scrollMainToTop();
-    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
     $scope.showSearch = false;
     category.page = 0;
-    $scope.loadItems();
+    // Infinite scroll must load items here if no items in the new category
   };
 
   // Category tab clicked
   $scope.onTabClicked = function(index) {
     console.log('onTabClicked: ' + index);
-    if (index != activeCategory) {
+    if (index != $scope.activeCategory) {
       // This triggers onCategoryChanged automatically
       $ionicSlideBoxDelegate.slide(index);
     } else {
@@ -159,12 +158,23 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   };
 
   // Pull to request
-  $scope.onRefresh = function() {
-    console.log('onRefresh');
-    var country = $scope.countries[$scope.activeCountry];
-    var category = country.categories[$scope.activeCategory];
-    category.page = 0;
-    $scope.loadItems();
+  $scope.onRefresh = function(index) {
+    console.log('onRefresh: ' + index);
+    if (index == $scope.activeCategory) {
+      var country = $scope.countries[$scope.activeCountry];
+      var category = country.categories[$scope.activeCategory];
+      category.page = 0;
+      $scope.loadItems();
+    }
+  };
+
+  // Infinite scroll
+  $scope.onInfinite = function(index) {
+    //console.log('onInfinite: ' + index);
+    if (index == $scope.activeCategory) {
+      console.log('onInfinite: ' + index);
+      $scope.loadItems();
+    }
   };
 
   // Search button on header bar clicked
