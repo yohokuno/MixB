@@ -1,4 +1,4 @@
-var initialCountries = [
+var allCountries = [
   {name: 'イギリス', id: 'uk'},
   {name: 'フランス', id: 'fra'},
   {name: 'ドイツ', id: 'ger'},
@@ -15,7 +15,7 @@ var initialCountries = [
   {name: '香港', id: 'hkg'}
 ];
 
-var initialCategories = [
+var allCategories = [
   {name: '住まい', id: 'acm'},
   {name: '求人', id: 'job'},
   {name: '売ります', id: 'sal'},
@@ -27,16 +27,12 @@ var initialCategories = [
 ];
 
 
-// Add categories to all countries
-$.each(initialCountries, function(i, country) {
-  country.categories = initialCategories;
-  $.each(country.categories, function(i, category) {
-    category.items = [];
-    category.query = '';
-    category.page = 0;
-    category.timestamp = 0;
-    category.attributes = [];
-  });
+$.each(allCategories, function(i, category) {
+  category.items = [];
+  category.query = '';
+  category.page = 0;
+  category.timestamp = 0;
+  category.attributes = [];
 });
 
 var loadingTemplate = {template: '<ion-spinner></ion-spinner>', noBackdrop: true};

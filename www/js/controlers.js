@@ -5,7 +5,8 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
                                     scrollService) {
 
   // Main model data for countries; see data.js
-  $scope.countries = initialCountries;
+  $scope.countries = allCountries;
+  $scope.categories = allCategories;
   $scope.activeCountry = 0;     // select UK by default
   $scope.activeCategory = 0;    // select acm by default
   $scope.showSearch = false;    // hide search tools by default
@@ -21,7 +22,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   // load and add items in the next page of active category of active country
   $scope.loadItems = function() {
     var country = $scope.countries[$scope.activeCountry];
-    var category = country.categories[$scope.activeCategory];
+    var category = $scope.categories[$scope.activeCategory];
     console.log('loadItems; page: ' + category.page + ', category:' + $scope.activeCategory);
 
     var url = getUrl(country.id, category.id, 'list');
@@ -53,7 +54,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   // TODO: merge with loadItems()
   $scope.searchItem = function() {
     var country = $scope.countries[$scope.activeCountry];
-    var category = country.categories[$scope.activeCategory];
+    var category = $scope.categories[$scope.activeCategory];
     var url = getUrl(country.id, category.id, 'search');
     console.log('searchItem: ' + category.query);
 
@@ -93,14 +94,13 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   $scope.openItemDetail = function(item) {
     console.log('openItemDetail'+ item);
     var country = $scope.countries[$scope.activeCountry];
-    var category = country.categories[$scope.activeCategory];
+    var category = $scope.categories[$scope.activeCategory];
     var dirname = getUrl(country.id, category.id);
     var url = getUrl(country.id, category.id, 'detail', item.id);
 
     $ionicLoading.show(loadingTemplate);
 
     $http.get(url).success(function(data) {
-      // TODO: extract getItemDetail to separate function
       $scope.itemDetail = getItemDetail(data, dirname);
       $scope.modal.show();
       $ionicLoading.hide();
@@ -122,6 +122,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     console.log('selectCountry: ' + index);
     $scope.activeCountry = index;
     $scope.activeCategory = 0;
+    $scope.categories = allCategories;
     $ionicSideMenuDelegate.toggleLeft(false);
   };
 
@@ -134,9 +135,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   // Category changed by swiping on slide box or clicking tab
   $scope.onCategoryChanged = function(index) {
     console.log('onCategoryChanged: ' + index);
-    // TODO: extract this to getActiveCategory() or flatten data structure
-    var country = $scope.countries[$scope.activeCountry];
-    var category = country.categories[$scope.activeCategory];
+    var category = $scope.categories[$scope.activeCategory];
     $scope.activeCategory = index;
     scrollService.autoScrollTabBar($scope.activeCategory);
     scrollService.scrollMainToTop();
@@ -160,9 +159,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   $scope.onRefresh = function(index) {
     console.log('onRefresh: ' + index);
     if (index == $scope.activeCategory) {
-      // TODO: extract this to getActiveCategory() or flatten data structure
-      var country = $scope.countries[$scope.activeCountry];
-      var category = country.categories[$scope.activeCategory];
+      var category = $scope.categories[$scope.activeCategory];
       category.page = 0;
       $scope.loadItems();
       // we don't need to empty the items list because loadItems does it when new items are ready
@@ -182,9 +179,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   // Search button on header bar clicked
   $scope.onSearchClicked = function() {
     console.log('onSearchClicked');
-    // TODO: extract this to getActiveCategory() or flatten data structure
-    var country = $scope.countries[$scope.activeCountry];
-    var category = country.categories[$scope.activeCategory];
+    var category = $scope.categories[$scope.activeCategory];
     if ($scope.showSearch) {
       $scope.showSearch = false;
       category.page = 0;
