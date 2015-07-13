@@ -141,10 +141,10 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     $ionicSlideBoxDelegate.slide(index);
     $scope.activeCategory = index;
     service.autoScrollTabBar($scope.activeCategory);
+    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
+    $scope.showSearch = false;
     category.page = 0;
     $scope.loadItems();
-    $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
-
   };
 
   // Pull to request
