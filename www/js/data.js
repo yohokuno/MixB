@@ -26,4 +26,7 @@ var allCategories = [
   {name: 'お知らせ', id: 'inf'}
 ];
 
-var loadingTemplate = {template: '<ion-spinner></ion-spinner>', noBackdrop: true};
+var loadingTemplate = {
+  template: '<ion-spinner></ion-spinner>',
+  noBackdrop: true
+};

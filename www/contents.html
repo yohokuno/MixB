@@ -28,21 +28,21 @@
 
                 <form ng-submit="searchItem()" ng-show="showSearch">
                     <label class="item item-input item-select"
-                           ng-repeat="attribute in category.attributes">
+                           ng-repeat="attribute in category.search.attributes">
                         <div class="input-label">{{attribute.label}}</div>
                         <select ng-model="attribute.selected">
                             <option ng-repeat="option in attribute.options" value="{{option.value}}" ng-selected="$index==0">{{option.text}}</option>
                         </select>
                     </label>
                     <label class="item item-input">
-                        <input ng-model="category.query" type="search" placeholder="キーワード"/>
+                        <input ng-model="category.search.query" type="search" placeholder="キーワード"/>
                         <button class="button icon-right ion-search" type="submit">検索</button>
                     </label>
                 </form>
 
                 <ion-list>
                     <ion-item style="padding:10px"
-                              ng-repeat="item in category.items track by $index"
+                              ng-repeat="item in {false: category.list.items, true: category.search.items }[showSearch] track by $index"
                               ng-click="openItemDetail(item)">
                         <p>
                         <span style="padding:2px"
