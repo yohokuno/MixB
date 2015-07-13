@@ -2,7 +2,7 @@
 app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
                                     $ionicModal, $ionicLoading,
                                     $ionicSideMenuDelegate, $ionicSlideBoxDelegate,
-                                    service) {
+                                    scrollService) {
 
   // Main model data for countries; see data.js
   $scope.countries = initialCountries;
@@ -139,7 +139,8 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     var country = $scope.countries[$scope.activeCountry];
     var category = country.categories[$scope.activeCategory];
     $scope.activeCategory = index;
-    service.autoScrollTabBar($scope.activeCategory);
+    scrollService.autoScrollTabBar($scope.activeCategory);
+    scrollService.scrollMainToTop();
     $ionicLoading.show({template: '<ion-spinner></ion-spinner>', noBackdrop: true});
     $scope.showSearch = false;
     category.page = 0;
@@ -149,9 +150,13 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   // Category tab clicked
   $scope.onTabClicked = function(index) {
     console.log('onTabClicked: ' + index);
-    // This triggers onCategoryChanged automatically
-    $ionicSlideBoxDelegate.slide(index);
-  }
+    if (index != activeCategory) {
+      // This triggers onCategoryChanged automatically
+      $ionicSlideBoxDelegate.slide(index);
+    } else {
+      scrollService.scrollMainToTop();
+    }
+  };
 
   // Pull to request
   $scope.onRefresh = function() {
