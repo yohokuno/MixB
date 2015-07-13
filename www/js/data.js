@@ -26,13 +26,4 @@ var allCategories = [
   {name: 'お知らせ', id: 'inf'}
 ];
 
-
-$.each(allCategories, function(i, category) {
-  category.items = [];
-  category.query = '';
-  category.page = 0;
-  category.timestamp = 0;
-  category.attributes = [];
-});
-
 var loadingTemplate = {template: '<ion-spinner></ion-spinner>', noBackdrop: true};

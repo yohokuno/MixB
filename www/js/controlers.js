@@ -7,6 +7,8 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   // Main model data for countries; see data.js
   $scope.countries = allCountries;
   $scope.categories = allCategories;
+  initCategories($scope.categories);
+
   $scope.activeCountry = 0;     // select UK by default
   $scope.activeCategory = 0;    // select acm by default
   $scope.showSearch = false;    // hide search tools by default
@@ -122,7 +124,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     console.log('selectCountry: ' + index);
     $scope.activeCountry = index;
     $scope.activeCategory = 0;
-    $scope.categories = allCategories;
+    initCategories($scope.categories);
     $ionicSideMenuDelegate.toggleLeft(false);
   };
 

@@ -146,3 +146,13 @@ function getItemDetail(data, dirname) {
     photo : body.find('div:eq(1)').html()
   };
 }
+
+function initCategories(categories) {
+  $.each(categories, function (i, category) {
+    category.items = [];
+    category.query = '';
+    category.page = 0;
+    category.timestamp = 0;
+    category.attributes = [];
+  });
+}
