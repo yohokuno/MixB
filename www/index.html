@@ -43,7 +43,7 @@
           <a class="button icon-left ion-chevron-left button-clear button-dark"
             ng-click="closeItemDetail()">戻る</a>
         </ion-header-bar>
-        <ion-content>
+        <ion-content delegate-handle="itemDetail">
           <h3>{{itemDetail.title}}</h3>
           <p ng-bind-html="itemDetail.metadata"></p>
           <p ng-bind-html="itemDetail.content"></p>

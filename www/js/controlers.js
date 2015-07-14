@@ -102,6 +102,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     var url = getUrl(country.id, category.id, 'detail', item.id);
 
     $ionicLoading.show(loadingTemplate);
+    scrollService.itemDetailToTop();
 
     $http.get(url).success(function(data) {
       $scope.itemDetail = getItemDetail(data, dirname);
@@ -143,8 +144,8 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     console.log('onCategoryChanged: ' + index);
     var category = $scope.categories[$scope.activeCategory];
     $scope.activeCategory = index;
-    scrollService.autoScrollTabBar($scope.activeCategory);
-    scrollService.scrollMainToTop();
+    scrollService.tabToCenter($scope.activeCategory);
+    scrollService.mainToTop();
     category.showSearch = false;
     category.list.page = 0;
     // Infinite scroll must load items here if no items in the new category
@@ -157,7 +158,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
       // This triggers onCategoryChanged automatically
       $ionicSlideBoxDelegate.slide(index);
     } else {
-      scrollService.scrollMainToTop();
+      scrollService.mainToTop();
     }
   };
 

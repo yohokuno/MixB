@@ -11,7 +11,7 @@
 
 <ion-header-bar class="bar-subheader">
     <ion-scroll direction="x" scrollbar-x="false" scrollbar-y="false"
-                class="wide-as-needed" delegate-handle="tab-bar">
+                class="wide-as-needed" delegate-handle="tabBar">
         <button class="button button-tab"
                 ng-repeat="category in categories"
                 ng-class="category.id + ((activeCategory == $index) ? ' active'  : '')"
@@ -23,7 +23,7 @@
     <ion-slide-box show-pager="false"
                    on-slide-changed="onCategoryChanged($index)">
         <ion-slide ng-repeat="category in categories">
-            <ion-content direction="y" delegate-handle="main">
+            <ion-content direction="y" delegate-handle="itemList">
                 <ion-refresher on-refresh="onRefresh($index)"></ion-refresher>
 
                 <form ng-submit="searchItem()" ng-show="category.showSearch">
