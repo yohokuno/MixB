@@ -18,12 +18,12 @@ app.service('scrollService', function($ionicScrollDelegate, $timeout, $rootScope
   // Note that this function scroll all categories to top
   // If you want, generate different delegate handle for each category
   this.mainToTop = function() {
-    // scroll item list to top
     var itemListScroll = $ionicScrollDelegate.$getByHandle('itemList');
     itemListScroll.scrollTop(true);
     $timeout( function() {
       itemListScroll.resize();
     }, 50);
+    // resume pending loading
     $rootScope.$broadcast('scroll.infiniteScrollComplete');
   };
 
