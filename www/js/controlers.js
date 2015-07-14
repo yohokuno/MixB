@@ -11,7 +11,6 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
 
   $scope.activeCountry = 0;     // select UK by default
   $scope.activeCategory = 0;    // select acm by default
-  $scope.showSearch = false;    // hide search tools by default
   $scope.itemDetail = null;     // no item details when open
 
   // Add modal view for item detail
@@ -146,7 +145,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
     $scope.activeCategory = index;
     scrollService.autoScrollTabBar($scope.activeCategory);
     scrollService.scrollMainToTop();
-    $scope.showSearch = false;
+    category.showSearch = false;
     category.list.page = 0;
     // Infinite scroll must load items here if no items in the new category
   };
@@ -186,6 +185,7 @@ app.controller('MainCtrl', function($scope, $rootScope, $http, $timeout,
   // Search button on header bar clicked
   $scope.toggleSearch = function() {
     console.log('toggleSearch');
-    $scope.showSearch = !$scope.showSearch;
+    var category = $scope.categories[$scope.activeCategory];
+    category.showSearch = !category.showSearch;
   };
 });

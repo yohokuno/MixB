@@ -151,6 +151,8 @@ function getItemDetail(data, dirname) {
 // We need those contents per category not only for cashing but also for showing adjacent slides
 function initCategories(categories) {
   $.each(categories, function (i, category) {
+    category.showSearch = false;
+
     category.list = {
       items: [],
       page : 0,
