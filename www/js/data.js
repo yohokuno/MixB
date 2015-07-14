@@ -1,3 +1,4 @@
+// countries shown in side menu
 var allCountries = [
   {name: 'イギリス', id: 'uk'},
   {name: 'フランス', id: 'fra'},
@@ -15,6 +16,7 @@ var allCountries = [
   {name: '香港', id: 'hkg'}
 ];
 
+// categories shown in tab bar
 var allCategories = [
   {name: '住まい', id: 'acm'},
   {name: '求人', id: 'job'},
@@ -26,6 +28,7 @@ var allCategories = [
   {name: 'お知らせ', id: 'inf'}
 ];
 
+// show spinner in loading screen
 var loadingTemplate = {
   template: '<ion-spinner></ion-spinner>',
   noBackdrop: true
